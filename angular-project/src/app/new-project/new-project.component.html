@@ -1,0 +1,583 @@
+<div class="animated fadeIn row">
+  <div class="col-md-offset-2 col-md-8"
+       id="new-project">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <p class="panel-title">
+          <i class="fa fa-folder"></i>&nbsp;&nbsp;&nbsp;New Project
+        </p>
+      </div>
+      <div class="panel-body">
+<aw-wizard>
+  <aw-wizard-step [stepTitle]="'Personalize'" [canExit]="nameValidation">
+    <h1>Project Personalization</h1>
+    <p>Enter a name for this project.</p>
+    <form name="nameForm">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">
+            Project Name
+          </div>
+          <input name="name" [(ngModel)]="validation.name"
+                 placeholder="Project name must not be taken"
+                 class="form-control" type="text" required/>
+        </div>
+      </div>
+    </form>
+    <button type="button" awNextStep>Next Step</button>
+    <button type="button" [awGoToStep]="{stepIndex: 2}">Go directly to third Step</button>
+  </aw-wizard-step>
+  <aw-wizard-step [stepTitle]="'Service Configuration'" [canExit]="serviceConfigValidation">
+      <h1>Service Configuration</h1>
+    <p><label for="urlType">How would you like to select your test URL?</label></p>
+      <div class="form-group">
+        <div class="input-group">
+
+          <select id="urlType" class="form-control" [(ngModel)]="urlSelectType" name="urlType" (change)="resetConfiguredUrl()">
+            <option *ngFor="let type of ['Url Builder', 'Saved Test Urls', 'Create Your Own URL']">
+              {{type}}
+            </option>
+
+          </select>
+        </div>
+      </div>
+      <form [hidden]="urlSelectType !== 'Url Builder'" class="ng-hide" action="#">
+        <div class="form-group">
+          <div class="input-group">
+
+            <!-------------------------- Services Textbox ------------------>
+            <div class="input-group-addon">
+              <label for="services">Select a service</label>
+            </div>
+            <select class="form-control" id="services" name="services"
+                    [(ngModel)]="serviceName"
+                    (change)="getMethods(serviceName)">
+              <option *ngFor="let name of names">
+                {{name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-------------------------- Methods Textbox ------------------>
+        <div [hidden]="methods" class="form-group">
+          <label id="methodsDivLabel" class="control-label"
+                 for="methodsDiv">Methods for {{baseUrl}}</label>
+          <div id="methodsDiv" class="input-group">
+            <div class="input-group-addon">
+              <label for="txtMethod">Select a function</label>
+            </div>
+            <select id="txtMethod" class="form-control" name="txtMethod"
+                    [(ngModel)]="methodSelected"
+
+                    (change)="getParams(methodSelected)">
+              <option *ngFor="let method of methods">
+                {{method.method}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!------------------------ End Methods Textbox --------------------->
+        <div  class="form-group">
+
+          <div id="typesDiv1" class="input-group">
+            <div class="input-group-addon">
+              <label for="txtType1">Select a method</label>
+            </div>
+            <select id="txtType1" class="form-control"
+                    [(ngModel)]="project.method" name="textType1">
+                    <option *ngFor="let type of ['GET', 'POST', 'PUT']">
+                      {{type}}
+                    </option>
+
+            </select>
+          </div>
+        </div>
+
+        <div [hidden]="!methodSelected">
+          <!------------------------ Parameters Textbox ------------------------------>
+          <p [hidden]="params.length !== 0" class="text-info">There are no parameters required for {{baseMethodUrl}}.</p>
+          <div [hidden]="params.length === 0" class="form-group ng-hide">
+            <label id="paramsDivLabel" class="control-label"
+                   for="paramsDiv">Parameters for {{baseMethodUrl}} </label>
+            <div *ngFor="let param of params">
+              <div id="paramsDiv" class="input-group">
+                <div class="input-group-addon">
+                  {{param.key}}
+                </div>
+                <input name="param" class="form-control" [(ngModel)]="param.value"
+                       (change)="updateParams()" type="text"
+                       value=""/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-------------------------- End Parameters Textbox ------------------------->
+      </form>
+      <div [hidden]="urlSelectType !== 'Saved Test Urls'" class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <label for="savedUrls">Saved Urls</label>
+          </div>
+          <select id="savedUrls" class="form-control"
+                  [(ngModel)]="savedUrl"
+                  (change)="project.uri = savedUrl" name="savedUrls">
+            <option *ngFor="let savedUrl of savedUrls">
+              {{savedUrl}}
+            </option>
+
+          </select>
+        </div>
+        <div  class="form-group">
+
+          <div id="typesDiv2" class="input-group">
+            <div class="input-group-addon">
+              <label for="txtType2">Select a method</label>
+            </div>
+            <select id="txtType2" class="form-control"
+                    [(ngModel)]="project.method" name="txtType2">
+              <option *ngFor="let type of['GET', 'POST', 'PUT']">
+                {{type}}
+              </option>
+
+            </select>
+          </div>
+        </div>
+      </div>
+      <form [hidden]="urlSelectType !== 'Create Your Own URL'" class="ng-hide" action="#">
+        <div class="form-group">
+          <div class="input-group">
+
+            <!-------------------------- Services Textbox ------------------>
+            <div class="input-group-addon">
+              <label for="customUrl">Input your URL</label>
+            </div>
+            <input id="customUrl" name="url" class="form-control" [(ngModel)]="webUrl" type="text"
+                   placeholder="For Web URLS make  sure you start with 'https'"/>
+          </div>
+        </div>
+
+        <!-------------------------- Methods Textbox ------------------>
+        <div  class="form-group">
+
+          <div id="typesDiv" class="input-group">
+            <div class="input-group-addon">
+              Select a method
+            </div>
+            <select id="txtType" class="form-control"
+                    [(ngModel)]="project.method" name="txtType">
+                    <option *ngFor="let type of ['GET', 'POST', 'PUT']">
+                    {{type}}
+                    </option>
+
+            </select>
+          </div>
+        </div>
+
+        <!------------------------ End Methods Textbox --------------------->
+
+        <div [hidden]="project.method">
+          <!------------------------ Parameters Textbox ------------------------------>
+          <div class="form-group">
+
+            <div>
+              <div id="webParam" class="input-group">
+                <div class="input-group-addon">
+                  <label for="paramName">Name</label>
+                </div>
+                <input id="paramName" name="param" class="form-control" [(ngModel)]="paramName"
+                       type="text"
+                />
+                <div class="input-group-addon">
+                  Value
+                </div>
+                <input name="param" class="form-control" [(ngModel)]="paramValue"
+                       type="text"/>
+                <span class="input-group-btn">
+                                        <button (click)="addWebParam(paramName, paramValue)" class="btn btn-primary"
+                                                type="button">
+                                            Add
+                                        </button>
+                                    </span>
+              </div>
+            </div>
+          </div>
+          <!------------------------ Parameters List Textbox ------------------------------>
+          <div class="form-group">
+            <label id="webParamsDivLabel" class="control-label"
+                   for="paramsDiv">Parameters for {{webUrl}} </label>
+            <div *ngFor="let param of webParams">
+              <div id="webParamsDiv" class="input-group">
+                <div class="input-group-addon">
+                  Name
+                </div>
+                <input name="param" class="form-control" readonly [(ngModel)]="param.key"
+                       type="text"
+                />
+                <div class="input-group-addon">
+                  Value
+                </div>
+                <input name="param" class="form-control" readonly [(ngModel)]="param.value"
+                       type="text"/>
+                <span class="input-group-btn">
+                                        <button (click)="removeWebParam(param.key)" class="btn btn-primary"
+                                                type="button">
+                                            Remove
+                                        </button>
+                                    </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-------------------------- End Parameters Textbox ------------------------->
+        <div class="form-group">
+          <p class="error" [hidden]="!urlValid"> Invalid Url </p>
+          <span class="input-group-btn">
+                                        <button (click)="saveWebUrl()"  class="btn btn-primary"
+                                                type="button">
+                                            Save URL
+                                        </button>
+                                    </span>
+        </div>
+      </form>
+      <form name="serviceForm">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">
+              Configured Test Url
+            </div>
+            <input class="form-control" type="text" name="url"
+                   placeholder="URL to be configured above"
+                   [(ngModel)]="project.uri" id="url" required/>
+            <span class="input-group-btn">
+                                        <button (click)="saveUrl(project.uri, urlSelectType)" class="btn btn-primary"
+                                                type="button">
+                                            Save
+                                        </button>
+                                    </span>
+          </div>
+        </div>
+        <!--<action-message ng-show="vm.savedUrlAction.message" action-info="vm.savedUrlAction"></action-message>-->
+        <!--<div ng-messages="serviceForm.urlValue.$error" style="color:red" role="alert">-->
+          <!--<div ng-message="required">You must specify a url to test.</div>-->
+        <!--</div>-->
+      </form>
+    <button type="button" awPreviousStep>Go to previous step</button>
+    <button type="button" awNextStep>Go to next step</button>
+  </aw-wizard-step>
+  <aw-wizard-step [stepTitle]="'Test Type'" [canExit]="testTypeValidation">
+      <h1>Test Type</h1>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <label for="testType">Test Type</label>
+          </div>
+          <select id="testType" class="form-control"
+                  [(ngModel)]="project.type"
+                  (change)="initProjectOptions()">
+            <option *ngFor="let type of testTypes">
+              {{type}}
+            </option>
+          </select>
+        </div>
+      </div>
+    <div *ngIf="project.options !=null">
+      <div [hidden]="project.type !== 'scalability' || project.type !=='capacity'">
+        <div [hidden]="project.type !== 'scalability'">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <label for="distribution">Distribution</label>
+            </div>
+            <select  id="distribution" class="form-control"
+                [(ngModel)]="project.options.distribution">
+
+              <option *ngFor="let distribution of ['Uniform', 'Normal', 'Poisson']">
+                {{distribution}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <!-- Number of concurrent users -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">Simulated Users</div>
+            <input class="form-control" type="text" name="userCount"
+                   [(ngModel)]="project.options.userCount"
+                   placeholder="Maximum number of simulated users"
+                   id="userCount"/>
+          </div>
+        </div>
+
+        <!-- Warm-Up Time (seconds) -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <label for="warmUpTime">Warm-Up Time (sec)</label>
+            </div>
+            <input class="form-control" type="text" name="warmUpTime"
+                   [(ngModel)]="project.options.warmUpTime"
+                   placeholder="Wait respTime before recording performance"
+                   id="warmUpTime"/>
+          </div>
+        </div>
+
+        <!-- Test Time (minutes) -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <label for="testTime"> Test Duration (sec)</label>
+            </div>
+            <input class="form-control" type="text" name="testTime"
+                   [(ngModel)]="project.options.testTime"
+                   placeholder="Duration of performance data to record"
+                   id="testTime"/>
+          </div>
+        </div>
+
+        <!-- Failures permitted (percent) -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <label for="failuresPermitted">Failure Threshold (%)</label>
+            </div>
+            <input class="form-control" type="text" name="failuresPermitted"
+                   [(ngModel)]="project.options.failuresPermitted"
+                   placeholder="% of web service calls permitted before test stops"
+                   id="failuresPermitted"/>
+          </div>
+        </div>
+
+        <!-- Step Duration (milliseconds) -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <label for="stepDuration">Step Duration (ms)</label>
+            </div>
+            <input class="form-control" type="text" name="stepDuration"
+                   [(ngModel)]="project.options.stepDuration"
+                   placeholder="Duration for a single step"
+                   id="stepDuration"/>
+          </div>
+        </div>
+
+        <!-- Number of users to increase for each step -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <label for="stepCount">Step Increase Count</label>
+            </div>
+            <input class="form-control" type="text" name="stepCount"
+                   [(ngModel)]="project.options.stepCount"
+                   placeholder="User increase amount per step"
+                   id="stepCount"/>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Any performance options would go here -->
+      <div [hidden]="project.type !== 'performance'">
+      </div>
+
+      <div [hidden]="project.type !== 'reliability' || project.type !== 'availability'"
+           class="ng-hide">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <label for="timeUnits">Time Units</label>
+            </div>
+            <select id="timeUnits" class="form-control"
+                    [(ngModel)]="project.options.timeUnits"
+                    >
+              <option *ngFor="let type of ['Seconds', 'Minutes', 'Hours']">
+              {{type}}
+              </option>
+            </select>
+          </div>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <label for="interval">Interval</label>
+            </div>
+            <input class="form-control" type="text" name="interval"
+                   [(ngModel)]="project.options.interval"
+                   placeholder="Tests will run regularly on this interval"
+                   id="interval"t
+            />
+          </div>
+          <div class="input-group">
+            <div class="input-group-addon">
+              Timeout (ms)
+            </div>
+            <input class="form-control" type="text" name="timeout" id="timeout"
+                   [(ngModel)]="project.options.timeout"
+                   placeholder="The max amount of time to wait before a scheduled test times out."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" awPreviousStep>Go to previous step</button>
+    <button type="button" awNextStep>Go to next step</button>
+  </aw-wizard-step>
+  <aw-wizard-step awWizardCompletionStep [stepTitle]="'Review & Start Testing'">
+
+      <h1>View project configuration and start the test.</h1>
+      <p><strong>Project name</strong>: {{project.name}}</p>
+      <p><strong>Url</strong>: <a href="{{project.uri}}">{{project.uri}}</a></p>
+      <p><strong>Test Type</strong>: {{project.type}}</p>
+      <p><strong>Options for {{project.type}} test:</strong></p>
+      <ul [hidden]="project.type !== 'performance'">
+        <!-- Performance options go here -->
+        <!--<li># of Requests to Make: {{project.options.requestCount}}</li>-->
+      </ul>
+    <div *ngIf="project.options !=null">
+      <ul [hidden]="project.type !== 'capacity' || project.type !== 'scalability'">
+        <li [hidden]="project.type !== 'scalability'">
+          Distribution: {{project.options.distribution}}
+        </li>
+        <li>
+          Initial User Count: {{project.options.userCount}}
+        </li>
+        <li>
+          Warm-up Time: {{project.options.warmUpTime}}
+        </li>
+        <li>
+          Total Test Duration: {{project.options.testTime}}
+        </li>
+        <li>
+          Failures Permitted (%): {{project.options.failuresPermitted}}
+        </li>
+        <li>
+          Step Duration (ms): {{project.options.stepDuration}}
+        </li>
+        <li>
+          Step Increase Count (users): {{project.options.stepCount}}
+        </li>
+      </ul>
+      <ul [hidden]="project.type !== 'reliability' || project.type !== 'availability'">
+        <li>
+          Test Interval: {{project.options.interval}}
+        </li>
+
+        <li>
+          Timeout: {{project.options.timeout}}
+        </li>
+      </ul>
+    </div>
+      <div layout="row" style="margin-bottom:10px;">
+        <div flex="10">
+          <button *ngIf="testStatus"
+                  class="btn btn-warning btn-md"
+                  (click)="stop()">
+            <i class="fa fa-times-circle"></i>&nbsp;&nbsp;Stop
+          </button>
+          <button *ngIf="!testStatus"  class="btn btn-info btn-md"
+                  id="start" (click)="initTest()">
+            <i class="fa fa-caret-square-o-right"></i>&nbsp;&nbsp;&nbsp;Start
+          </button>
+        </div>
+        <!--<div flex="90" ng-show="allServiceTestResLoading" class="animated fadeIn ng-hide">-->
+        <!--&lt;!&ndash;<div class="progress progress-striped active">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div id="overallTestProgress" class="progress-bar progress-bar-warning"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<h5><b>Successful Requests:</b> {{requests}}</h5>&ndash;&gt;-->
+        <!--&lt;!&ndash;<h5><b>Average Response Time:</b> {{rspTime}} ms</h5>&ndash;&gt;-->
+        <!--&lt;!&ndash;<b><i id="status-msg">&nbsp;&nbsp;&nbsp;&nbsp;</i></b>&ndash;&gt;-->
+        <!--</div>-->
+      </div>
+      <div *ngIf="testStatus" class="ui-helper-clearfix">
+        <div class="ball"></div>
+        <div class="ball1"></div>
+      </div>
+      <input class="btn btn-info" type="submit" awResetWizard value="Start another project" (click)="testStatus = false"/>
+    <button type="button" [disabled]="testStatus"  awResetWizard>Back to first step</button>
+    <button type="button" [disabled]="testStatus"  awPreviousStep>Previous Step</button>
+    <button type="button" (click)="finishFunction()">Finish</button>
+  </aw-wizard-step>
+</aw-wizard>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="chartsDiv">
+  <!-- Performance speed gaug && real time history --->
+  <div [hidden]="project.type !== 'performance' && !RTPERF" class="row ng-hide">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
+            Real Time Performance Monitor {{project.type}}</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-9">
+              <fusioncharts id="performance-monitor-div"
+                            type="realtimeline"
+                            width="100%"
+                            height="400"
+                            [dataFormat]="'json'"
+                            [dataSource]="dataSource">
+
+              </fusioncharts></div>
+            <div class="col-md-3"><div id="performance-gauge-div"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Some misc message, for example, the total capacity so far during a capacity test -->
+  <div class="row">
+    <h3 [hidden]="loadTestMessage == null || loadTestMessage == ''" class="col-md-10 col-md-offset-1">{{loadTestMessage}}</h3>
+  </div>
+
+  <div [hidden]="project.type !== 'capacity' || project.type !== 'scalability'" class="row ng-hide">
+    <div [hidden]="requestsGraphData != null" class="ng-hide col-md-5 col-md-offset-1">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;{{projectLoadedName}}
+            Requests</h3>
+        </div>
+        <div class="panel-body">
+          <canvas class="chart chart-line"
+                   chart-data="vm.requestsGraphData"
+                  chart-labels="vm.requestsGraphLabels" chart-options="vm.requestsGraphOptions"></canvas>
+        </div>
+      </div>
+    </div>
+    <div [hidden]="successScalabilityData == null" class="col-md-5 ng-hide">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;{{projectLoadedName}}
+            {{successTitle}}</h3>
+        </div>
+        <div class="panel-body">
+          <canvas class="chart chart-line"
+                  chart-data="vm.successScalabilityData"
+                  chart-labels="vm.successScalabilityLabels"
+                  chart-options="vm.successScalabilityOptions"
+                  chart-legend="true"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [hidden]="project.type !== 'scalability'" class="row ng-hide">
+    <div [hidden]="performanceScalabilityData ==  null" class="col-md-10 col-md-offset-1 ng-hide">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;{{projectLoadedName}}
+            Performance Scalability</h3>
+        </div>
+        <div class="panel-body">
+          <canvas class="chart chart-line"
+                  chart-data="vm.performanceScalabilityData"
+                  chart-labels="vm.performanceScalabilityLabels"
+                  chart-options="vm.performanceScalabilityOptions"
+                  chart-legend="true" chart-series="performanceSeries"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
