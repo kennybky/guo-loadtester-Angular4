@@ -1,0 +1,8 @@
+target/
+.settings/*
+soapui.log
+soapui-errors.log
+.idea/
+META-INF/
+*iml
+node_modules/

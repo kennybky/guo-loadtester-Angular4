@@ -21,13 +21,14 @@ export class GoogleChartsBaseService {
     google.charts.setOnLoadCallback(callback);
   }
 
-  setData(data: any[]){
-    this.datatable = google.visualization.arrayToDataTable(data);
+  getData(data: any[] = undefined){
+    if(data!== undefined)
+    return google.visualization.arrayToDataTable(data);
+    else{
+      return new google.visualization.DataTable();
+    }
   }
 
-  getData(){
-    return this.datatable;
-  }
 
   load(packages: any[],callback: Function){
     google.charts.load('current', {'packages': packages});
@@ -36,6 +37,14 @@ export class GoogleChartsBaseService {
 
   getGauge(el: HTMLElement){
        return  new google.visualization.Gauge(el);
+  }
+
+  getLineChart(el: HTMLElement){
+    return new google.visualization.LineChart(el);
+  }
+
+  drawLineChart(chart,data,options){
+    chart.draw(data, options);
   }
 
 

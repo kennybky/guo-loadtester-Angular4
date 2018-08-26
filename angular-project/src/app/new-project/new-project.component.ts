@@ -12,10 +12,7 @@ import {UrlBuilder} from '../shared/models/url-builder';
 import {RealTimePerformanceService} from '../shared/services/real-time-performance.service';
 import {ChartTrackerService} from '../shared/services/charts/chart-tracker.service';
 import {ChartOptionsService} from '../shared/services/charts/chart-options.service';
-import {FusionChartsService} from 'angular4-fusioncharts';
-import {FusionChartsModule} from 'angular4-fusioncharts';
-import FusionCharts from 'fusioncharts/core';
-import Chart from 'chart.js';
+import * as Chart from 'chart.js';
 
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/publish';
@@ -25,6 +22,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/find';
 import 'rxjs/add/observable/from';
 import {StatusPromisesService} from '../shared/services/status-promises.service';
+import {ChartConfiguration, ChartData} from 'chart.js';
 
 
 
@@ -78,6 +76,7 @@ export class NewProjectComponent implements OnInit, OnDestroy, OnChanges {
    urlValid = false as boolean;
   webUrl = "" as any;
   project_options: ProjectOptions;
+  dataSource = {} as any;
 
   constructor(private webServices: WebService, private tester: TesterService, private retester: Retester,
               private urlBuilder: UrlBuilder, private realTimePerformance: RealTimePerformanceService,
@@ -98,8 +97,9 @@ export class NewProjectComponent implements OnInit, OnDestroy, OnChanges {
     this.validation = {
       name:""
     }
-
   }
+
+
 
   ngOnDestroy() {
     this.retester.setProject(null);
@@ -315,7 +315,7 @@ export class NewProjectComponent implements OnInit, OnDestroy, OnChanges {
          this.project).subscribe(function (response) {
           initTestProm.resolve(response);
           if (response.running) {
-            vm.realTimePerformance.setProjectId(response.projectid);
+            vm.realTimePerformance.setProjectId(response.projectid, vm);
             let pingProm = vm.realTimePerformance.startPinging();
             pingProm.then(function(response: any) {
               clearTimeout(vm.timeOuts.initTest);
@@ -390,18 +390,74 @@ export class NewProjectComponent implements OnInit, OnDestroy, OnChanges {
     //hide the performance graph. we don't need it here.
     this.performanceScalabilityData = null;
     // keep checking for status updates for new data until the test duration + margin is over.
+    let crq = document.getElementById("capacityRequests") as HTMLCanvasElement;
+    let crqCtx = crq.getContext('2d');
+    vm.requestsGraphData = [];
+    vm.requestsGraphLabels = [];
+    vm.requestsGraphOptions = vm.chartOptions.requestGraphOptions("Request input: " + url);
+    let chartReq = new Chart(crqCtx, {
+      type:'line',
+      data: {
+        labels: vm.requestsGraphLabels,
+        datasets: [{
+          fillColor :220,
+          strokeColor : "rgba(220,220,220,1)",
+          pointColor : "rgba(220,220,220,1)",
+          pointStrokeColor : "#fff",
+          data: vm.requestsGraphData
+        }]
+      },
+      options: vm.requestsGraphOptions
+    });
+
+    let crs = document.getElementById("capacityScalability") as HTMLCanvasElement;
+    let crsCtx = crs.getContext('2d');
+
+    vm.successScalabilityLabels = []
+    vm.successScalabilityData = []
+    vm.successScalabilityOptions = vm.chartOptions.successScalabilityOptions("# of successful requests: " + url);
+
+    let chartSca = new Chart(crsCtx, {
+      type:'line',
+      data: {
+        labels: vm.successScalabilityLabels,
+        datasets: [{
+          data: vm.successScalabilityData
+        }]
+      },
+      options: vm.successScalabilityOptions
+    });
+
     var capacityPromise = setInterval(function () {
       vm.tester.getCapacityStatus(url, projectId).subscribe(function (response) {
         if (response.statusResponse.running && (vm.charts = response.charts.length) !== 0) {
           vm.successTitle = "Capacity"
           vm.charts = response.charts; //array of three charts: one for requests, another for performance, and another for success rate
+          console.log(vm.charts)
+
           vm.requestsGraphLabels = vm.charts[0].labels;
           vm.requestsGraphData = [vm.charts[0].data];
-          vm.requestsGraphOptions = vm.chartOptions.requestGraphOptions("Request input: " + url);
+
+
+          chartReq.data.labels =  vm.requestsGraphLabels
+          chartReq.data.datasets.forEach((dataset) => {
+            dataset.data = vm.requestsGraphData
+          });
+
+
+          chartReq.update();
+
 
           vm.successScalabilityLabels = vm.charts[1].labels;
           vm.successScalabilityData = [vm.charts[1].data];
-          vm.successScalabilityOptions = vm.chartOptions.successScalabilityOptions("# of successful requests: " + url);
+
+          chartSca.data.labels =  vm.successScalabilityLabels;
+          chartSca.data.datasets.forEach((dataset) => {
+            dataset.data = vm.successScalabilityData;
+          });
+
+
+          chartSca.update();
 
           vm.loadTestMessage = "Current known capacity: " + Math.max.apply(null, vm.successScalabilityData[0]) + " requests.";
         } else {

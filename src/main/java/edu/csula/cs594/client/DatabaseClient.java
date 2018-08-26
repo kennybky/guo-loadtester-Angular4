@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 public class DatabaseClient {
 
-    private static final Logger logger = LoggerFactory.getLogger(DatabaseClient.class);    
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseClient.class);
 
     private Connection connect = null;
 
@@ -55,7 +55,10 @@ public class DatabaseClient {
             connect.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
             logger.info("Database connection initialized.");
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException e) {
+            logger.error("Class Not found unable to connect: ", e);
+        }
+        catch (SQLException e) {
             logger.error("Unable connect the database: ", e);
         }
     }
@@ -74,9 +77,9 @@ public class DatabaseClient {
             logger.error("Unable connect the database: ", e);
         }
     }
-    
+
     public Connection getConnection() {
-    	return connect;
+        return connect;
     }
 
     public boolean validateProjectName(String projectName) throws SQLException {
@@ -203,8 +206,8 @@ public class DatabaseClient {
         if (mode.equals("day")) {
             try (PreparedStatement preparedStatement = connect.prepareStatement(
                     "select d.statuscode "
-                    + "from projects p inner join deltas d on (d.projectid=p.id) "
-                    + "where d.projectid= ? and d.dateCreated between ? and ? ")) {
+                            + "from projects p inner join deltas d on (d.projectid=p.id) "
+                            + "where d.projectid= ? and d.dateCreated between ? and ? ")) {
                 String start = year + "-" + month + "-" + day;
                 String end = start + " 23:59:59";
                 preparedStatement.setInt(1, projectId);
@@ -306,7 +309,7 @@ public class DatabaseClient {
     }
 
     public void updateLoadTestProject(int projectId, String projectName, String uri, String distribution,
-            int warmUpTime, int testTime, int stepDurationMs, int stepCount, int userCount, Date date, String type) throws SQLException {
+                                      int warmUpTime, int testTime, int stepDurationMs, int stepCount, int userCount, Date date, String type) throws SQLException {
         java.sql.Timestamp dateCreated = new java.sql.Timestamp(date.getTime());
         try (PreparedStatement preparedStatement = connect.prepareStatement("update stats.projects "
                 + "set projectName = ?, uri = ?, distribution = ?, warmUpTime = ?,"
@@ -513,7 +516,7 @@ public class DatabaseClient {
             Project project = null;
             if(resultSet.next()) {
 
-               project =  new Project(resultSet.getInt("id"), resultSet.getString("data"));
+                project =  new Project(resultSet.getInt("id"), resultSet.getString("data"));
             }
 
             return new GetProjectByIdResult(id, project);
@@ -923,26 +926,26 @@ public class DatabaseClient {
             return graph.getResult();
         }
     }
-    
+
     public int[] getPerformanceDelta(int projectId) throws SQLException {
-    	String query = "select requestCount, avgResponseTime, failedRequests from projects where id = ?";
-    	int[] result = new int[3];
-    	  try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
-              preparedStatement.setInt(1, projectId);
-              try (ResultSet resultSet = preparedStatement.executeQuery()) {
-            	 if(resultSet.next()){
-            	 result[0] =  resultSet.getInt(1);
-            	 result[1] =  resultSet.getInt(2);
-            	 result[2] = resultSet.getInt(3);
-            	 return result;
-            	 } else {
-            		 return null;
-            	 }
-              }
-    	  }
+        String query = "select requestCount, avgResponseTime, failedRequests from projects where id = ?";
+        int[] result = new int[3];
+        try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
+            preparedStatement.setInt(1, projectId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if(resultSet.next()){
+                    result[0] =  resultSet.getInt(1);
+                    result[1] =  resultSet.getInt(2);
+                    result[2] = resultSet.getInt(3);
+                    return result;
+                } else {
+                    return null;
+                }
+            }
+        }
     }
 
-//    public StatusResponse getPerformanceHistory(int projectId) throws SQLException {
+    //    public StatusResponse getPerformanceHistory(int projectId) throws SQLException {
 //        String query = "select dateCreated, avg(roundTripTime) from deltas where projectid= ? group by UNIX_TIMESTAMP(dateCreated),\n" +
 //                "dateCreated";
 //        try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
@@ -1044,7 +1047,7 @@ public class DatabaseClient {
     }
 
     public int createScalabilityProject(String projectName, String uri, String distribution, int warmUpTime,
-            int testDuration, int stepDurationMs, int stepCount, int userCount) throws SQLException {
+                                        int testDuration, int stepDurationMs, int stepCount, int userCount) throws SQLException {
 
         try (PreparedStatement preparedStatement = connect.prepareStatement("insert into stats.projects (projectname, uri, testType, "
                 + "distribution, warmUpTime, testDuration, stepDuration, stepCount, userCount) values (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
@@ -1067,7 +1070,7 @@ public class DatabaseClient {
     }
 
     public int createCapacityProject(String projectName, String uri, int warmUpTime,
-            int testDuration, int stepDurationMs, int stepCount, int userCount) throws SQLException {
+                                     int testDuration, int stepDurationMs, int stepCount, int userCount) throws SQLException {
 
         try (PreparedStatement preparedStatement = connect.prepareStatement("insert into stats.projects (projectname, uri, testType, "
                 + "warmUpTime, testDuration, stepDuration, stepCount, userCount) values (?, ?, ?, ?, ?, ?, ?, ?)")) {

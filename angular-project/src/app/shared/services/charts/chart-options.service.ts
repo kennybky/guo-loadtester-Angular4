@@ -99,6 +99,12 @@ export class ChartOptionsService {
         display: true,
         text: title,
         fullWidth: true
+      },
+      legend: {
+        display: true,
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        }
       }
     };
   }

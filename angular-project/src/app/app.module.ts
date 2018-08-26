@@ -12,10 +12,6 @@ import { NewProjectComponent } from './new-project/new-project.component';
 import { ExistingProjectsComponent } from './existing-project/existing-projects.component';
 import { WebProjectComponent } from './web-project/web-project.component';
 import {ValidationMessagesComponent, ValidationMessageComponent} from './shared/ValidationMessagesComponent';
-import * as  FusionCharts from 'fusioncharts/core';
-import * as Charts from 'fusioncharts/fusioncharts.charts';
-import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
-import {FusionChartsModule} from 'angular-fusioncharts';
 import { HttpClientModule } from '@angular/common/http';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {ChartDataService} from './shared/services/charts/chart-data.service';
@@ -30,11 +26,10 @@ import {GoogleChartsBaseService} from './shared/services/charts/google-charts-ba
 import {UrlBuilder} from './shared/models/url-builder';
 import {Retester} from './shared/models/retester';
 import { ActionMessageComponent } from './action-message/action-message.component';
-import Column2D from 'fusioncharts/viz/column2d';
 
 
 
-FusionChartsModule.fcRoot(FusionCharts, Column2D, Charts, FintTheme)
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,9 +48,7 @@ FusionChartsModule.fcRoot(FusionCharts, Column2D, Charts, FintTheme)
     ArchwizardModule,
     HttpClientModule,
     FormsModule,
-    FusionChartsModule,
-    ReactiveFormsModule,
-    FusionChartsModule.forRoot(FusionCharts, Column2D, Charts, FintTheme)
+    ReactiveFormsModule
   ],
   providers: [
     ChartDataService,
