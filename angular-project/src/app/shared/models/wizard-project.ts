@@ -8,12 +8,13 @@ export class WizardProject {
   public params : any;
 
 
-  constructor(name, type, uri, options = new ProjectOptions()) {
+  constructor(name, type, uri, options = new ProjectOptions(), method='GET') {
     this.id  = null;
     this.name = name;
     this.type = type;
     this.options = options;
     this.uri = uri;
+    this.method = method;
   }
 
 }

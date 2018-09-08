@@ -1,3 +1,246 @@
-<p>
-  web-project works!
-</p>
+<div class="row mt-lg-5 mb-3">
+  <button class="btn btn-success mx-3" type="button" (click)="createNewProject()">
+    <i class="fa fa-plus-square-o" aria-hidden="true"></i> Create New Project
+  </button>
+  <button class="btn btn-success mx-3" type="button" (click)="createNewProject('upload')">
+    <i class="fa fa-plus-square-o" aria-hidden="true"></i> Create New UploadTest
+  </button>
+</div>
+
+<table class="table table-hover table-bordered">
+  <thead>
+  <tr>
+    <th class="text-center">ID</th>
+    <th class="text-center">Title</th>
+    <th class="text-center">Parameters</th>
+    <th class="text-center">Edit</th>
+    <th class="text-center">Graph</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let project of projects">
+    <td class="text-center">{{ project.getId() }}</td>
+    <td class="text-center">{{ project.title }}</td>
+    <td class="text-center">{{ project.service}}</td>
+    <td class="text-center">
+      <button *ngIf="project.service != 'upload'" class="btn btn-outline-info" data-toggle="modal" data-target="#editClientModal" (click)="editProject(project.getId())">
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+      </button>
+      <button *ngIf="project.service=='upload'" class="btn btn-outline-info" data-toggle="modal" data-target="#uploadModalCenter" (click)="editProject(project.getId())">
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-outline-danger" (click)="deleteProject(project.getId())">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+      </button>
+    </td>
+    <td class="text-center">
+      <button class="btn btn-outline-info" (click)="loadGraph(project.getId())">
+        <i class="fa fa-picture-o" aria-hidden="true"></i>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div *ngIf="current_project" id="editClientModal" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="table"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="" data-target="#tab1" data-toggle="tab">Project Details</a></li>
+            <li><a href="" data-target="#tab2" data-toggle="tab">URL Builder</a></li>
+            <li><a href="" data-target="#tab3" data-toggle="tab">Urls</a></li>
+            <li><a href="" data-target="#tab4" data-toggle="tab">Response</a></li>
+          </ul>
+          <div class="tab-content">
+
+            <div class="tab-pane active" id="tab1">
+              <div class="form-group row px-3">
+                <label for="project-title" class="col-3 col-form-label"><b>Title</b> : </label>
+                <div class="col-lg-9">
+                  <input id="project-title" type="text" [(ngModel)]="current_project.title"/>
+                </div>
+              </div>
+              <div class="form-group row px-3">
+                <label for="project-desc" class="col-3 col-form-label"><b>Description</b> : </label>
+                <div class="col-lg-9">
+                                            <textarea id="project-desc" cols="50" [(ngModel)]="current_project.description" class="form-control" rows="8">
+
+                                            </textarea>
+                </div>
+              </div>
+              <div class="form-group row px-3">
+                <label for="project-stats" class="col-3 col-form-label"><b>Stats</b> : </label>
+                <div class="col-9">
+                  <table id="project-stats" class="table table-hover table-bordered">
+                    <thead>
+                    <tr>
+                      <th class="text-center">URL</th>
+                      <th class="text-center">Method</th>
+                      <th class="text-center">Response Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let stat of current_project.stats">
+                      <td class="text-center">{{ stat.url }}</td>
+                      <td class="text-center">{{ stat.type }}</td>
+                      <td class="text-center">{{ stat.responseTime }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="tab-pane" id="tab2">
+              <div class="form-group row px-3">
+                <label for="project-url" class="col-3 col-form-label"><b>Url</b> : </label>
+                <div class="col-9">
+                  <input type="text" id="project-url" [(ngModel)]="current_project.uri"/>
+                </div>
+              </div>
+              <div class="form-group row px-3">
+                <label  class="col-3 col-form-label"><b>Method</b> : </label>
+                <div class="col-9">
+                  <div><input type="radio" name="project-method" [(ngModel)]="current_project.method" value="GET">GET</div>
+                  <div> <input type="radio" name="project-method" [(ngModel)]="current_project.method" value="POST">POST</div>
+                  <div><input type="radio" name="project-method" [(ngModel)]="current_project.method" value="UPDATE">UPDATE</div>
+                </div>
+              </div>
+              <div class="form-group row px-3">
+                <label  class="col-3 col-form-label"><b>Params</b> : </label>
+                <div class="col-9">
+
+                  <div class="col-xs-7 col-xs-offset-2">Name: <input type="text" [(ngModel)]="paramName"/> Value: <input type="text" [(ngModel)]="paramValue"/>
+                    <input type="button" value="add" (click)="addParam()"/></div>
+                </div>
+              </div>
+              <div class="form-group row px-3">
+                <div class="col-lg-12">
+                  <div *ngFor="let key of objectKeys(current_project.parameters) as keys let i = index" class="col-xs-7 mx-auto">
+                    <input class="col-lg-3" type="text" readonly [(ngModel)]="keys[i]"/>
+                    <input class="col-lg-3" type="text" readonly [(ngModel)]="current_project.parameters[keys[i]]"/>
+                    <input class="col-lg-3" type="button" value="delete" (click)="deleteParam(key)"/>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <input class="col-lg-3" type="button" value="Add Url" (click)="addUrl()"/>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab3">
+              <div class="form-group row px-3">
+                <div class="col-lg-9">URLS</div>
+
+                <table id="project-urls" class="table table-hover table-bordered">
+                  <thead>
+                  <tr>
+                    <th class="text-center">URL</th>
+                    <th class="text-center">Method</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let stat of current_project.parameterEntries">
+                    <td class="text-center">{{ stat.url }}</td>
+                    <td class="text-center">{{ stat.method }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab4">
+              <div class="form-group row px-3">
+                <div class="col-lg-9">Performance Graph</div>
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" type="button" (click)="start()"> Start Test and Save Project</button>
+        <button class="btn" type="button" (click)="saveProject()"> Save Project</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div [hidden]="!showLoadingBall" class="ng-hide">
+  <div class="ball"></div>
+  <div class="ball1"></div>
+</div>
+<div *ngIf="current_project" class="modal fade" id="uploadModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">File size:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3">
+              <select [(ngModel)]="size">
+                <!-- <option ng-repeat="b in isaac.bits">{{b}}</option> -->
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="col-md-1">
+              mb(s)
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" (click)="uploadTest()"  class="btn btn-primary">Run</button>
+        <button type="button" (click)="stop()" [hidden]="!current_project.running"  class="btn btn-primary">Stop</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="chart-section">
+  <div [hidden]="!RTPERF" class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card card-info">
+        <div class="card-header bg-blue">
+          <h3 class="card-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
+            Real Time Performance Monitor</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-9"><div id="performance-monitor-div"></div></div>
+            <div class="col-md-3"><div id="performance-gauge-div"></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8 col-md-offset-2" *ngIf="current_project">
+    <div class="card">
+      <div class="card-header bg-blue">
+        <h3 class="card-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
+          Performance for {{current_project.title}} </h3>
+      </div>
+      <div class="card-body">
+        <div id="chart-container"></div>
+      </div>
+    </div>
+  </div>
+</div>
+

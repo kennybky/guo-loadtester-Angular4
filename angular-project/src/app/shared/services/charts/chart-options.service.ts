@@ -56,7 +56,7 @@ export class ChartOptionsService {
       tooltips: {
         callbacks: {
           label: function (tooltipItem, data) {
-           data = data.datasets[0].data; //array of data objects.
+           data = data.datasets[0].data; // array of data objects.
             let toolTipDataInd = tooltipItem.index;
             return "Avg Response Time: " + data[toolTipDataInd] + " ms";
           }

@@ -4,9 +4,9 @@ import {StatusPromisesService} from './status-promises.service';
 import {ChartTrackerService} from './charts/chart-tracker.service';
 import * as q from 'q';
 import {GoogleChartsBaseService} from './charts/google-charts-base.service';
-import {Observable} from 'rxjs/Observable';
+import { Observable, Subject } from 'rxjs';
 import {NewProjectComponent} from '../../new-project/new-project.component';
-import Chart from 'chart.js';
+import * as Chart from 'chart.js';
 
 @Injectable()
 export class RealTimePerformanceService {
@@ -18,15 +18,13 @@ export class RealTimePerformanceService {
   }
   projectId;
   dataSource: any[];
-  component: NewProjectComponent;
   latestPerformance: any;
   avgPerf: any;
 
 
 
-   setProjectId(id, component) {
+   setProjectId(id) {
     this.projectId = id;
-    this.component = component;
   }
 
 
@@ -87,7 +85,7 @@ export class RealTimePerformanceService {
 
       let chart = this.googleCharts.getLineChart(document.getElementById('performance-monitor-div'));
 
-      this.googleCharts.drawLineChart(chart,chartData, chart_options);
+      this.googleCharts.drawChart(chart,chartData, chart_options);
 
 
 
@@ -110,7 +108,7 @@ export class RealTimePerformanceService {
                  strData = [label, latestPerformance, avgPerf]
               }
                chartData.addRows([strData]);
-               vm.googleCharts.drawLineChart(chart,chartData, chart_options);
+               vm.googleCharts.drawChart(chart,chartData, chart_options);
             }
 
             let monitorPromise = setInterval(function () {

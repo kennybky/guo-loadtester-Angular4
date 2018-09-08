@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class WebService {
@@ -9,9 +9,7 @@ export class WebService {
 
 
    getServices() {
-    return this.http.get("v1/service/get").map((response)=>{
-      return this.splitServices(response);
-    })
+    return this.http.get("v1/service/get");
   }
 
    saveTestUrl(uri, serviceId = null): Observable<any> {
@@ -42,9 +40,7 @@ export class WebService {
       descriptionUri = encodeURIComponent(descriptionUri);
     }
     return this.http.get('v1/service/save?name=' + name +
-      '&descriptionUri=' + descriptionUri).subscribe((response) => {
-      return response;
-    });
+      '&descriptionUri=' + descriptionUri);
   }
 
   serviceDisplays(services) {
@@ -68,9 +64,7 @@ export class WebService {
   }
 
    deleteService(service) {
-    return this.http.get('v1/service/delete?id=' + service.id).subscribe(function(response) {
-      return response;
-    });
+    return this.http.get('v1/service/delete?id=' + service.id);
   }
 
    formatParams(services) {
@@ -80,7 +74,7 @@ export class WebService {
     });
   }
 
-   splitServices(services) {
+   splitServices(services): any{
     var servicesWithBuilder = [];
     var servicesWithoutBuilder = []; ///these are services that aren't configured with a url builder, i.e. only testUri is populated
 
@@ -97,5 +91,7 @@ export class WebService {
       servicesWithoutBuilder: servicesWithoutBuilder
     }
   }
+
+
 
 }

@@ -103,4 +103,9 @@ footer .footer-icons a{
   margin-bottom: 5px;
 }
 
+.card-header.bg-blue, mat-tab-header{
+  background-color:rgb(65, 150, 212);
+  color:white;
+}
+
 

@@ -43,8 +43,16 @@ export class GoogleChartsBaseService {
     return new google.visualization.LineChart(el);
   }
 
-  drawLineChart(chart,data,options){
+  drawChart(chart,data,options){
     chart.draw(data, options);
+  }
+
+  getBarChart(el: HTMLElement){
+   return new google.visualization.BarChart(el);
+  }
+
+  getAreaChart(el: HTMLElement) {
+    new google.visualization.AreaChart(el);
   }
 
 

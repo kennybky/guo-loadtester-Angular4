@@ -1,22 +1,22 @@
 <div class="animated fadeIn row">
-  <div class="col-md-offset-2 col-md-8"
+  <div class="mx-auto my-md-5 col-md-8"
        id="new-project">
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <p class="panel-title">
+    <div class="card">
+      <div class="card-header bg-blue">
+        <p class="card-title">
           <i class="fa fa-folder"></i>&nbsp;&nbsp;&nbsp;New Project
         </p>
       </div>
-      <div class="panel-body">
-<aw-wizard>
+      <div class="card-body">
+<aw-wizard [navigationMode]="'free'">
   <aw-wizard-step [stepTitle]="'Personalize'" [canExit]="nameValidation">
     <h1>Project Personalization</h1>
     <p>Enter a name for this project.</p>
     <form name="nameForm">
       <div class="form-group">
         <div class="input-group">
-          <div class="input-group-addon">
-            Project Name
+          <div class="input-group-prepend">
+            <span class="input-group-text">Project Name</span>
           </div>
           <input name="name" [(ngModel)]="validation.name"
                  placeholder="Project name must not be taken"
@@ -24,6 +24,7 @@
         </div>
       </div>
     </form>
+    <action-message [action]="validateName"></action-message>
     <button class="btn btn-primary" type="button" awNextStep>Next Step</button>
   </aw-wizard-step>
   <aw-wizard-step [stepTitle]="'Service Configuration'" [canExit]="serviceConfigValidation">
@@ -45,8 +46,8 @@
           <div class="input-group">
 
             <!-------------------------- Services Textbox ------------------>
-            <div class="input-group-addon">
-              <label for="services">Select a service</label>
+            <div class="input-group-prepend">
+              <label for="services" class="input-group-text">Select a service</label>
             </div>
             <select class="form-control" id="services" name="services"
                     [(ngModel)]="serviceName"
@@ -59,12 +60,12 @@
         </div>
 
         <!-------------------------- Methods Textbox ------------------>
-        <div [hidden]="methods" class="form-group">
+        <div [hidden]="!methods" class="form-group">
           <label id="methodsDivLabel" class="control-label"
                  for="methodsDiv">Methods for {{baseUrl}}</label>
           <div id="methodsDiv" class="input-group">
-            <div class="input-group-addon">
-              <label for="txtMethod">Select a function</label>
+            <div class="input-group-prepend">
+              <label for="txtMethod" class="input-group-text">Select a function</label>
             </div>
             <select id="txtMethod" class="form-control" name="txtMethod"
                     [(ngModel)]="methodSelected"
@@ -81,8 +82,8 @@
         <div  class="form-group">
 
           <div id="typesDiv1" class="input-group">
-            <div class="input-group-addon">
-              <label for="txtType1">Select a method</label>
+            <div class="input-group-prepend">
+              <label for="txtType1" class="input-group-text">Select a method</label>
             </div>
             <select id="txtType1" class="form-control"
                     [(ngModel)]="project.method" name="textType1">
@@ -99,14 +100,14 @@
           <p [hidden]="params.length !== 0" class="text-info">There are no parameters required for {{baseMethodUrl}}.</p>
           <div [hidden]="params.length === 0" class="form-group ng-hide">
             <label id="paramsDivLabel" class="control-label"
-                   for="paramsDiv">Parameters for {{baseMethodUrl}} </label>
+                   for="param">Parameters for {{baseMethodUrl}} </label>
             <div *ngFor="let param of params">
               <div id="paramsDiv" class="input-group">
                 <div class="input-group-addon">
                   {{param.key}}
                 </div>
                 <input name="param" class="form-control" [(ngModel)]="param.value"
-                       (change)="updateParams()" type="text"
+                       (change)="updateParams()" type="text" id="param"
                        value=""/>
               </div>
             </div>
@@ -116,8 +117,8 @@
       </form>
       <div [hidden]="urlSelectType !== 'Saved Test Urls'" class="form-group">
         <div class="input-group">
-          <div class="input-group-addon">
-            <label for="savedUrls">Saved Urls</label>
+          <div class="input-group-prepend">
+            <label for="savedUrls" class="input-group-text">Saved Urls</label>
           </div>
           <select id="savedUrls" class="form-control"
                   [(ngModel)]="savedUrl"
@@ -131,8 +132,8 @@
         <div  class="form-group">
 
           <div id="typesDiv2" class="input-group">
-            <div class="input-group-addon">
-              <label for="txtType2">Select a method</label>
+            <div class="input-group-prepend">
+              <label for="txtType2" class="input-group-text">Select a method</label>
             </div>
             <select id="txtType2" class="form-control"
                     [(ngModel)]="project.method" name="txtType2">
@@ -149,8 +150,8 @@
           <div class="input-group">
 
             <!-------------------------- Services Textbox ------------------>
-            <div class="input-group-addon">
-              <label for="customUrl">Input your URL</label>
+            <div class="input-group-prepend">
+              <label for="customUrl" class="input-group-text">Input your URL</label>
             </div>
             <input id="customUrl" name="url" class="form-control" [(ngModel)]="webUrl" type="text"
                    placeholder="For Web URLS make  sure you start with 'https'"/>
@@ -161,8 +162,8 @@
         <div  class="form-group">
 
           <div id="typesDiv" class="input-group">
-            <div class="input-group-addon">
-              Select a method
+            <div class="input-group-prepend">
+              <span class="input-group-text">Select a method</span>
             </div>
             <select id="txtType" class="form-control"
                     [(ngModel)]="project.method" name="txtType">
@@ -182,14 +183,16 @@
 
             <div>
               <div id="webParam" class="input-group">
-                <div class="input-group-addon">
-                  <label for="paramName">Name</label>
+                <div class="input-group-prepend">
+                  <label for="paramName" class="input-group-text">Name</label>
                 </div>
                 <input id="paramName" name="param" class="form-control" [(ngModel)]="paramName"
                        type="text"
                 />
-                <div class="input-group-addon">
-                  Value
+              </div>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Value</span>
                 </div>
                 <input name="param" class="form-control" [(ngModel)]="paramValue"
                        type="text"/>
@@ -208,18 +211,18 @@
                    for="paramsDiv">Parameters for {{webUrl}} </label>
             <div *ngFor="let param of webParams">
               <div id="webParamsDiv" class="input-group">
-                <div class="input-group-addon">
-                  Name
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Name</span>
                 </div>
                 <input name="param" class="form-control" readonly [(ngModel)]="param.key"
                        type="text"
                 />
-                <div class="input-group-addon">
-                  Value
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Value</span>
                 </div>
                 <input name="param" class="form-control" readonly [(ngModel)]="param.value"
                        type="text"/>
-                <span class="input-group-btn">
+                <span class="input-group-text">
                                         <button (click)="removeWebParam(param.key)" class="btn btn-primary"
                                                 type="button">
                                             Remove
@@ -232,7 +235,7 @@
         <!-------------------------- End Parameters Textbox ------------------------->
         <div class="form-group">
           <p class="error" [hidden]="!urlValid"> Invalid Url </p>
-          <span class="input-group-btn">
+          <span class="input-group-text">
                                         <button (click)="saveWebUrl()"  class="btn btn-primary"
                                                 type="button">
                                             Save URL
@@ -243,13 +246,13 @@
       <form name="serviceForm">
         <div class="form-group">
           <div class="input-group">
-            <div class="input-group-addon">
-              Configured Test Url
+            <div class="input-group-prepend">
+              <span class="input-group-text">Configured Test Url</span>
             </div>
             <input class="form-control" type="text" name="url"
                    placeholder="URL to be configured above"
                    [(ngModel)]="project.uri" id="url" required/>
-            <span class="input-group-btn">
+            <span class="input-group-text">
                                         <button (click)="saveUrl(project.uri, urlSelectType)" class="btn btn-primary"
                                                 type="button">
                                             Save
@@ -262,15 +265,15 @@
           <!--<div ng-message="required">You must specify a url to test.</div>-->
         <!--</div>-->
       </form>
-    <button type="button" awPreviousStep>Go to previous step</button>
-    <button type="button" awNextStep>Go to next step</button>
+    <button type="button" awPreviousStep class="btn btn-primary mx-1">Go to previous step</button>
+    <button type="button" awNextStep class="btn btn-primary mx-1">Go to next step</button>
   </aw-wizard-step>
   <aw-wizard-step [stepTitle]="'Test Type'" [canExit]="testTypeValidation">
       <h1>Test Type</h1>
       <div class="form-group">
         <div class="input-group">
-          <div class="input-group-addon">
-            <label for="testType">Test Type</label>
+          <div class="input-group-prepend">
+            <label for="testType" class="input-group-text">Test Type</label>
           </div>
           <select id="testType" class="form-control"
                   [(ngModel)]="project.type"
@@ -282,11 +285,11 @@
         </div>
       </div>
     <div *ngIf="project.options !=null">
-      <div [hidden]="project.type !== 'scalability' || project.type !=='capacity'">
+      <div [hidden]="project.type !== 'scalability' && project.type !=='capacity'">
         <div [hidden]="project.type !== 'scalability'">
           <div class="input-group">
-            <div class="input-group-addon">
-              <label for="distribution">Distribution</label>
+            <div class="input-group-prepend">
+              <label for="distribution" class="input-group-text">Distribution</label>
             </div>
             <select  id="distribution" class="form-control"
                 [(ngModel)]="project.options.distribution">
@@ -300,7 +303,8 @@
         <!-- Number of concurrent users -->
         <div class="form-group">
           <div class="input-group">
-            <div class="input-group-addon">Simulated Users</div>
+            <div class="input-group-prepend">
+              <span class="input-group-text">Simulated Users</span></div>
             <input class="form-control" type="text" name="userCount"
                    [(ngModel)]="project.options.userCount"
                    placeholder="Maximum number of simulated users"
@@ -311,8 +315,8 @@
         <!-- Warm-Up Time (seconds) -->
         <div class="form-group">
           <div class="input-group">
-            <div class="input-group-addon">
-              <label for="warmUpTime">Warm-Up Time (sec)</label>
+            <div class="input-group-prepend">
+              <label for="warmUpTime" class="input-group-text">Warm-Up Time (sec)</label>
             </div>
             <input class="form-control" type="text" name="warmUpTime"
                    [(ngModel)]="project.options.warmUpTime"
@@ -324,8 +328,8 @@
         <!-- Test Time (minutes) -->
         <div class="form-group">
           <div class="input-group">
-            <div class="input-group-addon">
-              <label for="testTime"> Test Duration (sec)</label>
+            <div class="input-group-prepend">
+              <label for="testTime" class="input-group-text"> Test Duration (sec)</label>
             </div>
             <input class="form-control" type="text" name="testTime"
                    [(ngModel)]="project.options.testTime"
@@ -337,8 +341,8 @@
         <!-- Failures permitted (percent) -->
         <div class="form-group">
           <div class="input-group">
-            <div class="input-group-addon">
-              <label for="failuresPermitted">Failure Threshold (%)</label>
+            <div class="input-group-prepend">
+              <label for="failuresPermitted" class="input-group-text">Failure Threshold (%)</label>
             </div>
             <input class="form-control" type="text" name="failuresPermitted"
                    [(ngModel)]="project.options.failuresPermitted"
@@ -350,8 +354,8 @@
         <!-- Step Duration (milliseconds) -->
         <div class="form-group">
           <div class="input-group">
-            <div class="input-group-addon">
-              <label for="stepDuration">Step Duration (ms)</label>
+            <div class="input-group-prepend">
+              <label for="stepDuration" class="input-group-text">Step Duration (ms)</label>
             </div>
             <input class="form-control" type="text" name="stepDuration"
                    [(ngModel)]="project.options.stepDuration"
@@ -363,8 +367,8 @@
         <!-- Number of users to increase for each step -->
         <div class="form-group">
           <div class="input-group">
-            <div class="input-group-addon">
-              <label for="stepCount">Step Increase Count</label>
+            <div class="input-group-prepend">
+              <label for="stepCount" class="input-group-text">Step Increase Count</label>
             </div>
             <input class="form-control" type="text" name="stepCount"
                    [(ngModel)]="project.options.stepCount"
@@ -379,12 +383,12 @@
       <div [hidden]="project.type !== 'performance'">
       </div>
 
-      <div [hidden]="project.type !== 'reliability' || project.type !== 'availability'"
+      <div [hidden]="project.type !== 'reliability' && project.type !== 'availability'"
            class="ng-hide">
         <div class="form-group">
           <div class="input-group">
-            <div class="input-group-addon">
-              <label for="timeUnits">Time Units</label>
+            <div class="input-group-prepend">
+              <label for="timeUnits" class="input-group-text">Time Units</label>
             </div>
             <select id="timeUnits" class="form-control"
                     [(ngModel)]="project.options.timeUnits"
@@ -395,8 +399,8 @@
             </select>
           </div>
           <div class="input-group">
-            <div class="input-group-addon">
-              <label for="interval">Interval</label>
+            <div class="input-group-prepend">
+              <label for="interval" class="input-group-text">Interval</label>
             </div>
             <input class="form-control" type="text" name="interval"
                    [(ngModel)]="project.options.interval"
@@ -405,8 +409,8 @@
             />
           </div>
           <div class="input-group">
-            <div class="input-group-addon">
-              Timeout (ms)
+            <div class="input-group-prepend">
+              <span class="input-group-text">Timeout (ms)</span>
             </div>
             <input class="form-control" type="text" name="timeout" id="timeout"
                    [(ngModel)]="project.options.timeout"
@@ -416,8 +420,8 @@
         </div>
       </div>
     </div>
-    <button type="button" awPreviousStep>Go to previous step</button>
-    <button type="button" awNextStep>Go to next step</button>
+    <button type="button" awPreviousStep class="btn btn-primary mx-1">Go to previous step</button>
+    <button type="button" awNextStep class="btn btn-primary mx-1">Go to next step</button>
   </aw-wizard-step>
   <aw-wizard-step awWizardCompletionStep [stepTitle]="'Review & Start Testing'">
 
@@ -464,16 +468,16 @@
         </li>
       </ul>
     </div>
-      <div layout="row" style="margin-bottom:10px;">
-        <div flex="10">
+      <div class="row mb-3">
+        <div class="flex-md-row">
           <button *ngIf="testStatus"
                   class="btn btn-warning btn-md"
                   (click)="stop()">
-            <i class="fa fa-times-circle"></i>&nbsp;&nbsp;Stop
+            <i class="fa fa-times-circle"></i> Stop
           </button>
           <button *ngIf="!testStatus"  class="btn btn-info btn-md"
                   id="start" (click)="initTest()">
-            <i class="fa fa-caret-square-o-right"></i>&nbsp;&nbsp;&nbsp;Start
+            <i class="fa fa-caret-square-o-right"></i> Start
           </button>
         </div>
         <!--<div flex="90" ng-show="allServiceTestResLoading" class="animated fadeIn ng-hide">-->
@@ -489,10 +493,12 @@
         <div class="ball"></div>
         <div class="ball1"></div>
       </div>
-      <input class="btn btn-info" type="submit" awResetWizard value="Start another project" (click)="testStatus = false"/>
-    <button type="button" [disabled]="testStatus"  awResetWizard>Back to first step</button>
-    <button type="button" [disabled]="testStatus"  awPreviousStep>Previous Step</button>
-    <button type="button" (click)="finishFunction()">Finish</button>
+
+      <input class="btn btn-info mx-sm-1" type="submit" awResetWizard value="Start another project" (click)="testStatus = false"/>
+    <button type="button" [disabled]="testStatus"  awResetWizard class="btn btn-outline-secondary mx-sm-1">Back to first step</button>
+    <button type="button" [disabled]="testStatus"  awPreviousStep class="btn btn-primary mx-sm-1">Previous Step</button>
+    <button type="button" (click)="finishFunction()" class="btn btn-success mx-sm-1">Finish</button>
+
   </aw-wizard-step>
 </aw-wizard>
       </div>
@@ -500,16 +506,16 @@
   </div>
 </div>
 
-<div id="chartsDiv">
+<div id="chartsDiv" class="col-lg-12">
   <!-- Performance speed gaug && real time history --->
-  <div [hidden]="project.type !== 'performance' || !RTPERF" class="row ng-hide">
-    <div class="col-md-8 col-md-offset-2">
-      <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
+  <div [hidden]="project.type !== 'performance' || !RTPERF" class="row">
+    <div class="col-lg-12 mx-auto">
+      <div class="card">
+        <div class="card-header bg-blue">
+          <h3 class="card-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
             Real Time Performance Monitor {{project.type}}</h3>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           <div class="row">
             <div class="col-md-9">
               <div id="performance-monitor-div"></div>
@@ -523,46 +529,42 @@
 
   <!-- Some misc message, for example, the total capacity so far during a capacity test -->
   <div class="row">
-    <h3 [hidden]="loadTestMessage == null || loadTestMessage == ''" class="col-md-10 col-md-offset-1">{{loadTestMessage}}</h3>
+    <h3 [hidden]="loadTestMessage == null || loadTestMessage == ''" class="col-md-10 mx-auto">{{loadTestMessage}}</h3>
   </div>
 
-  <div [hidden]="project.type !== 'capacity' && project.type !== 'scalability'" class="row ng-hide">
-    <div [hidden]="requestsGraphData == null" class="ng-hide col-md-5 col-md-offset-1">
-      <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;{{projectLoadedName}}
+  <div [hidden]="project.type !== 'capacity' && project.type !== 'scalability'" class="col=lg-12">
+    <div [hidden]="requestsGraphData == null" class="col-md-10 mx-auto mb-2">
+      <div class="card">
+        <div class="card-header bg-blue">
+          <h3 class="card-title"><i class="fa fa-check-square-o"></i> {{projectLoadedName}}
             Requests</h3>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           <canvas id="capacityRequests" class="chart chart-line"></canvas>
         </div>
       </div>
     </div>
-    <div [hidden]="successScalabilityData == null" class="col-md-5 ng-hide">
-      <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;{{projectLoadedName}}
+    <div [hidden]="successScalabilityData == null" class="col-md-10 mx-auto mb-2">
+      <div class="card">
+        <div class="card-header bg-blue">
+          <h3 class="card-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;{{projectLoadedName}}
             {{successTitle}}</h3>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           <canvas id="capacityScalability" class="chart chart-line"></canvas>
         </div>
       </div>
     </div>
   </div>
   <div [hidden]="project.type !== 'scalability'" class="row ng-hide">
-    <div [hidden]="performanceScalabilityData ==  null" class="col-md-10 col-md-offset-1 ng-hide">
-      <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;{{projectLoadedName}}
+    <div [hidden]="performanceScalabilityData ==  null" class="col-md-10 mx-auto">
+      <div class="card">
+        <div class="card-header bg-blue">
+          <h3 class="card-title"><i class="fa fa-check-square-o"></i> {{projectLoadedName}}
             Performance Scalability</h3>
         </div>
-        <div class="panel-body">
-          <canvas class="chart chart-line"
-                  chart-data="vm.performanceScalabilityData"
-                  chart-labels="vm.performanceScalabilityLabels"
-                  chart-options="vm.performanceScalabilityOptions"
-                  chart-legend="true" chart-series="performanceSeries"></canvas>
+        <div class="card-body">
+          <canvas id="performanceScalability"></canvas>
         </div>
       </div>
     </div>

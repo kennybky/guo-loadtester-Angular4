@@ -6,6 +6,7 @@ import {Injectable} from '@angular/core';
 export class Retester {
    webService: any;
    project: WizardProject;
+   public isRetest = false;
 
    setProject(retest) {
     this.project = retest;

@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ArchwizardModule } from 'angular-archwizard';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatTabsModule, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 
 
 import { AppComponent } from './app.component';
@@ -29,7 +32,6 @@ import { ActionMessageComponent } from './action-message/action-message.componen
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +41,7 @@ import { ActionMessageComponent } from './action-message/action-message.componen
     WebProjectComponent,
     ValidationMessagesComponent,
     ValidationMessageComponent,
-    ActionMessageComponent,
+    ActionMessageComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -48,7 +50,12 @@ import { ActionMessageComponent } from './action-message/action-message.componen
     ArchwizardModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    BrowserAnimationsModule
   ],
   providers: [
     ChartDataService,

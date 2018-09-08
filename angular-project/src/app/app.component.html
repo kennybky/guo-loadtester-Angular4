@@ -1,26 +1,34 @@
- <div class="text-center">
+ <div class="text-center" id="banner-div">
     <a class="navbar-brand"><img id="logo" src="../assets/images/Jiang_Guo_Group_Header.jpg"></a>
   </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <ul class="nav navbar-nav">
+    <nav class="navbar navbar-expand-lg bg-dark" id="main-nav">
+      <a href="#" class="navbar-brand"><i class="fa fa-sitemap"></i> QoS Suite of Cloud Software Services</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'services'" routerLinkActive="active bigger">Webservices</a>
+          <a class="nav-link" [routerLink]="'services'" routerLinkActive="active bigger">
+            <i class="fa fa-cloud" aria-hidden="true"></i> Webservices</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'newproject'" routerLinkActive="active bigger">New
+          <a class="nav-link" [routerLink]="'newproject'" routerLinkActive="active bigger">
+            <i class="fa fa-plus-square-o" aria-hidden="true"></i> New
             Project</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'existingprojects'" routerLinkActive="active bigger">Existing
+          <a class="nav-link" [routerLink]="'existingprojects'" routerLinkActive="active bigger">
+            <i class="fa fa-folder-open-o" aria-hidden="true"></i> Existing
             Projects</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'projects'" routerLinkActive="active bigger">Composition Projects</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="'webproject'" routerLinkActive="active bigger">Web Projects</a>
+          <a class="nav-link" [routerLink]="'webproject'" routerLinkActive="active bigger">
+            <i class="fa fa-globe" aria-hidden="true"></i> Web
+            Projects</a>
         </li>
       </ul>
+      </div>
     </nav>
 
   <!-------------------------------------- END TOP NAVBAR ------------------------------->
