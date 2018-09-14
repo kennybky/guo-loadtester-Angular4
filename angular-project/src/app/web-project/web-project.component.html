@@ -19,22 +19,22 @@
   </thead>
   <tbody>
   <tr *ngFor="let project of projects">
-    <td class="text-center">{{ project.getId() }}</td>
+    <td class="text-center">{{ project.id }}</td>
     <td class="text-center">{{ project.title }}</td>
     <td class="text-center">{{ project.service}}</td>
     <td class="text-center">
-      <button *ngIf="project.service != 'upload'" class="btn btn-outline-info" data-toggle="modal" data-target="#editClientModal" (click)="editProject(project.getId())">
+      <button *ngIf="project.service != 'upload'" class="btn btn-outline-info" data-toggle="modal" data-target="#editClientModal" (click)="editProject(project.id)">
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
       </button>
-      <button *ngIf="project.service=='upload'" class="btn btn-outline-info" data-toggle="modal" data-target="#uploadModalCenter" (click)="editProject(project.getId())">
+      <button *ngIf="project.service=='upload'" class="btn btn-outline-info" data-toggle="modal" data-target="#uploadModalCenter" (click)="editProject(project.id)">
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
       </button>
-      <button class="btn btn-outline-danger" (click)="deleteProject(project.getId())">
+      <button class="btn btn-outline-danger" (click)="deleteProject(project.id)">
         <i class="fa fa-trash-o" aria-hidden="true"></i>
       </button>
     </td>
     <td class="text-center">
-      <button class="btn btn-outline-info" (click)="loadGraph(project.getId())">
+      <button class="btn btn-outline-info" (click)="loadGraph(project.id)">
         <i class="fa fa-picture-o" aria-hidden="true"></i>
       </button>
     </td>
@@ -50,11 +50,13 @@
 
       <div class="modal-body">
         <div class="table"> <!-- Only required for left/right tabs -->
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="" data-target="#tab1" data-toggle="tab">Project Details</a></li>
-            <li><a href="" data-target="#tab2" data-toggle="tab">URL Builder</a></li>
-            <li><a href="" data-target="#tab3" data-toggle="tab">Urls</a></li>
-            <li><a href="" data-target="#tab4" data-toggle="tab">Response</a></li>
+          <ul class="nav nav-pills nav-justified mb-md-3">
+            <li class="nav-item">
+              <a href="" class="nav-link active" data-target="#tab1" data-toggle="tab">Project Details</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="" data-target="#tab2" data-toggle="tab">URL Builder</a></li>
+            <li class="nav-item"><a class="nav-link" href="" data-target="#tab3" data-toggle="tab">Urls</a></li>
+            <li class="nav-item"><a class="nav-link" href="" data-target="#tab4" data-toggle="tab">Response</a></li>
           </ul>
           <div class="tab-content">
 
@@ -213,16 +215,16 @@
 </div>
 
 <div id="chart-section">
-  <div [hidden]="!RTPERF" class="row">
-    <div class="col-md-8 mx-auto">
+  <div [hidden]="!RTPERF" class="col-lg-12">
+    <div class="col-lg-12 mx-auto">
       <div class="card card-info">
         <div class="card-header bg-blue">
           <h3 class="card-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
             Real Time Performance Monitor</h3>
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-9"><div id="performance-monitor-div"></div></div>
+          <div>
+            <div class="col-md-12"><div id="performance-monitor-div"></div></div>
             <div class="col-md-3"><div id="performance-gauge-div"></div></div>
           </div>
 
@@ -231,9 +233,9 @@
     </div>
   </div>
 
-  <div class="col-md-8 col-md-offset-2" *ngIf="current_project">
+  <div class="col-md-10 mx-auto" [hidden]="!current_project">
     <div class="card">
-      <div class="card-header bg-blue">
+      <div class="card-header bg-blue"  *ngIf="current_project">
         <h3 class="card-title"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
           Performance for {{current_project.title}} </h3>
       </div>

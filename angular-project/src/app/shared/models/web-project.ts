@@ -1,5 +1,5 @@
 export class WebProject  {
-  private id: Number
+  public id: Number
   public title:string
   public stats: Array<any>
   public dbId: Number
@@ -49,7 +49,7 @@ export class WebProject  {
           this.uri = ""
         }
 
-        getId(){
+        public getId(){
           return this.id;
         }
       }

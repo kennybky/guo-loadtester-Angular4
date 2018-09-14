@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ArchwizardModule } from 'angular-archwizard';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { MatTabsModule, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule} from '@angular/material';
+import { MatTabsModule, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
@@ -29,6 +29,7 @@ import {GoogleChartsBaseService} from './shared/services/charts/google-charts-ba
 import {UrlBuilder} from './shared/models/url-builder';
 import {Retester} from './shared/models/retester';
 import { ActionMessageComponent } from './action-message/action-message.component';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -41,7 +42,8 @@ import { ActionMessageComponent } from './action-message/action-message.componen
     WebProjectComponent,
     ValidationMessagesComponent,
     ValidationMessageComponent,
-    ActionMessageComponent
+    ActionMessageComponent,
+    LoginComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -55,6 +57,7 @@ import { ActionMessageComponent } from './action-message/action-message.componen
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    MatInputModule,
     BrowserAnimationsModule
   ],
   providers: [

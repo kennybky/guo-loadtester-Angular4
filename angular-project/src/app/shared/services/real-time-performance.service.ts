@@ -57,7 +57,7 @@ export class RealTimePerformanceService {
     };
 
       let chartData = this.googleCharts.getData();
-    chartData.addColumn('string', 'Time');
+    chartData.addColumn('datetime', 'Time');
     chartData.addColumn('number', 'current');
     chartData.addColumn('number', 'average');
 
@@ -94,10 +94,10 @@ export class RealTimePerformanceService {
               return (num <= 9)? ("0"+num) : num;
             }
             function updateData() {
-              let currDate = new Date(),
-                label = addLeadingZero(currDate.getHours()) + ":" +
-                  addLeadingZero(currDate.getMinutes()) + ":" +
-                  addLeadingZero(currDate.getSeconds()),
+              let label = new Date(),
+                // label = addLeadingZero(currDate.getHours()) + ":" +
+                //   addLeadingZero(currDate.getMinutes()) + ":" +
+                //   addLeadingZero(currDate.getSeconds()),
                 // Build Data String in format &label=...&value=...
                 strData = [], avgPerf = vm.avgPerf, latestPerformance=vm.latestPerformance;
               if (avgPerf == -1) {

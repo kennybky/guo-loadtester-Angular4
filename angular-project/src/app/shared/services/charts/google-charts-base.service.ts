@@ -52,7 +52,7 @@ export class GoogleChartsBaseService {
   }
 
   getAreaChart(el: HTMLElement) {
-    new google.visualization.AreaChart(el);
+    return new google.visualization.AreaChart(el);
   }
 
 

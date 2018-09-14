@@ -64,7 +64,7 @@ export class RealTimeTrackerService {
        };
 
        let chartData = this.googleCharts.getData();
-       chartData.addColumn('string', 'Time');
+       chartData.addColumn('datetime', 'Time');
        chartData.addColumn('number', 'current');
        chartData.addColumn('number', 'average');
 
@@ -101,10 +101,10 @@ export class RealTimeTrackerService {
          return (num <= 9)? ("0"+num) : num;
        }
        function updateData() {
-         let currDate = new Date(),
-           label = addLeadingZero(currDate.getHours()) + ":" +
-             addLeadingZero(currDate.getMinutes()) + ":" +
-             addLeadingZero(currDate.getSeconds()),
+         let label = new Date(),
+           // label = addLeadingZero(currDate.getHours()) + ":" +
+           //   addLeadingZero(currDate.getMinutes()) + ":" +
+           //   addLeadingZero(currDate.getSeconds()),
            // Build Data String in format &label=...&value=...
            strData = [], avgPerf = vm.avgPerf, latestPerformance=vm.latestPerformance;
          if (avgPerf == -1) {
@@ -114,6 +114,7 @@ export class RealTimeTrackerService {
            console.log(avgPerf);
            strData = [label, latestPerformance, avgPerf]
          }
+         console.log(label)
          chartData.addRows([strData]);
          vm.googleCharts.drawChart(chart,chartData, chart_options);
        }
@@ -139,8 +140,8 @@ export class RealTimeTrackerService {
 
           vm.webtester.start(vm.project.title, vm.project.url, vm.project.method, vm.project.parameters)
             .subscribe(function (response:any) {
-                latestPerformance = response.avgResponseTime;
-                avgPerf = response.cumAvgResponseTime;
+                vm.latestPerformance = response.avgResponseTime;
+                vm.avgPerf = response.cumAvgResponseTime;
 
                 //console.log(latestPerformance);
                 if (latestPerformance <= 1) {
@@ -152,7 +153,7 @@ export class RealTimeTrackerService {
                 data.setValue(0, 1, latestPerformance);
                 performanceGauge.draw(data, options);
                 //updateData(latestPerformance, avgPerf)
-                this.saveData(latestPerformance);
+                vm.saveData(latestPerformance);
               },
               (err)=>{
                 console.log(err)

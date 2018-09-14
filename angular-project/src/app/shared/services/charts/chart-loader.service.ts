@@ -23,19 +23,23 @@ export class ChartLoaderService {
   }
 
   renderGoogleLineCharts(chart, container:HTMLElement){
-
+     console.log(chart)
     let strData = [];
     let categories = chart.dataSource.categories[0].category;
     let data = chart.dataSource.dataset[0].data;
     let caption= chart.dataSource.chart.caption;
     let xAxisName = chart.dataSource.chart.xAxisName;
     let yAxisName = chart.dataSource.chart.yaxisname;
-    strData.push([yAxisName, xAxisName])
+    strData.push([
+      {label:xAxisName, id:xAxisName, type:'datetime'},
+      {label:yAxisName, id:yAxisName, type:'number'}
+    ])
+
     for(let i=0; i < categories.length; i++){
       if(categories[i] === undefined || data[i] == undefined){
         break;
       }
-      strData.push([categories[i].label, Number(data[i].value)])
+      strData.push([new Date(categories[i].label), Number(data[i].value)])
     }
     if(this.chartsLoaded) {
       this.render(strData, caption, yAxisName, xAxisName,container)
@@ -58,9 +62,17 @@ export class ChartLoaderService {
       pointSize: 4,
       legend: "none",
       height: 500,
+      width:900,
       hAxis: {
-        title: xAxisName
+        title: xAxisName,
+        allowContainerBoundaryTextCufoff:false,
+        minTextSpacing: 5
       },
+      explorer: {
+        axis:'horizontal',
+        keepInBounds:'true'
+      },
+      viewWindowMode:'maximized',
 
       vAxis: {
         title: yAxisName
@@ -184,6 +196,7 @@ export class ChartLoaderService {
 
   renderBarChart(project) {
     let data = project.stats
+    console.log(project)
     let datum = []
     let colors = this.generateColors()
     let i = 0;
@@ -202,7 +215,8 @@ export class ChartLoaderService {
       i++
     })
 
-    let container = document.getElementById(' chart-container');
+    let container = document.getElementById('chart-container');
+    console.log(container)
     let caption = `Comparison of Response Times for ${project.title}`;
 
 

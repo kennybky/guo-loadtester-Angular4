@@ -69,9 +69,12 @@ export class WebProjectComponent implements OnInit, OnDestroy {
         let current = vm.current_project;
         this.testAll(prom, vm.current_project.parameterEntries, current)
 
+         console.log(vm.current_project)
+
         prom.promise.then((stats:any)=>{
+          console.log(stats)
           current.stats = stats;
-          vm.loadGraph(current.getId());
+          vm.loadGraph(current.id);
           vm.saveProject(current)
         })
       }
@@ -235,7 +238,7 @@ export class WebProjectComponent implements OnInit, OnDestroy {
         this.webtester.deleteProjectDb(project.dbId).subscribe((res)=>{
           console.log(res)
           this.projects = this.projects.filter((pj)=>{
-            return pj.getId() !== id;
+            return pj.id !== id;
           })
         },(err)=>{
           console.log(err)
@@ -269,6 +272,7 @@ export class WebProjectComponent implements OnInit, OnDestroy {
         const project = this.getProject(id);
         let vm = this;
         this.loadedProject = project;
+        this.current_project = project;
         if(project.service === 'upload'){
           this.webtester.getGraphData(project.dbId).subscribe((graphData:any)=>{
             console.log(graphData)
@@ -276,7 +280,8 @@ export class WebProjectComponent implements OnInit, OnDestroy {
             vm.statusPromises.clear();
             vm.chartTracker.clearGoogleCharts();
             vm.chartTracker.clearFusionCharts();
-            let container = document.getElementById('chart-section');
+            let container = document.getElementById('chart-container');
+            console.log(container)
             container.scrollIntoView();
             this.chartLoader.renderGoogleLineCharts(graphData.fusionChart, container );
             vm.showLoadingBall = false;
@@ -286,7 +291,10 @@ export class WebProjectComponent implements OnInit, OnDestroy {
             console.log(err)
           })
         } else {
-          this.chartLoader.renderBarChart(project);
+            let container = document.getElementById('chart-container');
+            console.log(container)
+            vm.chartLoader.renderBarChart(project);
+
         }
 
       }
@@ -306,7 +314,7 @@ export class WebProjectComponent implements OnInit, OnDestroy {
 
       getProject(id){
         return this.projects
-          .find((project) => project.getId() === id);
+          .find((project) => project.id === id);
       }
 
 }

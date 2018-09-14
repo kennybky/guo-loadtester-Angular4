@@ -5,6 +5,7 @@ import {NewProjectComponent} from './new-project/new-project.component';
 import {ExistingProjectsComponent} from './existing-project/existing-projects.component';
 import {WebProjectComponent} from './web-project/web-project.component';
 import {WebServicesComponent} from './web-services/web-services.component';
+import {LoginComponent} from './login/login.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,10 @@ const routes: Routes = [
     redirectTo: 'newproject',
     pathMatch: 'full'
   },
+  {
+    path: 'login',
+    component: LoginComponent
+  }
 ];
 @NgModule({
   imports: [
