@@ -99,6 +99,8 @@ export class ExistingProjectsComponent implements OnInit, OnDestroy {
   compareResultsTable:any;
   availDate:any;
   compareCharts:Array<any>;
+  sortField;
+  reverse;
 
   ngOnInit() {
     this.activate();
@@ -159,12 +161,13 @@ export class ExistingProjectsComponent implements OnInit, OnDestroy {
         }
       }
 
-    getDatePicker(mode) {
-        this.options.minMode = mode.name;
-      }
 
 
-      getAvailability(mode, date) {
+
+      getAvailability() {
+        let mode = this.availMode, jsonDate = this.availDate
+       let date = new Date(jsonDate.year, jsonDate.month, jsonDate.day)
+
         let vm = this;
         if(this.timeOuts.datePickerMsg) {
           clearTimeout(this.timeOuts.datePickerMsg);
@@ -179,9 +182,10 @@ export class ExistingProjectsComponent implements OnInit, OnDestroy {
         }
         else {
           this.projectData.getAvailability(mode, date, this.projectAvailability.projectid).subscribe(function (response:any) {
-            vm.datePickerMsg.class = this.styleResult(response.running);
+            vm.datePickerMsg.class = vm.styleResult(response.running);
+            console.log(response);
             if (response.running) {
-              switch (vm.options.minMode) {
+              switch (mode) {
                 case 'day':
                   vm.datePickerMsg.message = "Availability for " + date.getFullYear() + '-' +
                     (date.getMonth() + 1) + '-' + date.getDate() + ': ' + response.message;
@@ -203,6 +207,8 @@ export class ExistingProjectsComponent implements OnInit, OnDestroy {
 
       clearAvailability() {
         this.datePickerMsg.message = null;
+        this.availMode = null;
+        this.availDate = null;
       }
 
       getReliability(project) {

@@ -358,33 +358,43 @@
               <span class="input-group-text">Mode</span>
             </div>
             <select class="form-control"
-                    [(ngModel)]="availMode"
-                    (ngModelChange)="getDatePicker(availMode)">
+                    [(ngModel)]="availMode">
             <option *ngFor="let mode of modes">
               {{mode.name}}
             </option>
             </select>
           </div>
 
-        <mat-form-field>
-            <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="availDate">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+        <!--<mat-form-field>-->
+            <!--<input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="availDate">-->
+            <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+            <!--<mat-datepicker #picker></mat-datepicker>-->
+        <!--</mat-form-field>-->
+          <div class="form-group">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                     name="dp"  [(ngModel)]="availDate" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-          <!--<action-message ng-show="datePickerMsg.message" action-info="datePickerMsg"></action-message>-->
+          <action-message *ngIf="datePickerMsg" [action]="datePickerMsg"></action-message>
         </div>
-      </div>
       <div class="modal-footer">
         <button type="button" (click)="clearAvailability()" class="btn btn-default" data-dismiss="modal">
           Close
         </button>
-        <button type="button" (click)="getAvailability(availMode.name, availDate)"
+        <button type="button" (click)="getAvailability()"
                 class="btn btn-primary">
           Submit
         </button>
       </div>
+    </div>
     </div>
   </div>
 
@@ -392,16 +402,18 @@
 <!--<div id="real-time-chart">FusionCharts will render here</div>-->
 
 <div id="reliability" class="modal fade" role="dialog" *ngIf="projectReliability">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-header">
         <h4 class="modal-title url">Reliability for {{projectReliability.uri}}</h4>
       </div>
       <div class="modal-body">
-        <div layout="row" layout-align="space-around center">
-          <!--<action-message ng-show="reliabilityAction.message"-->
-                          <!--action-info="reliabilityAction"></action-message>-->
+        <div class="row">
+          <action-message *ngIf="reliabilityAction.message"
+                          [action]="reliabilityAction"></action-message>
         </div>
       </div>
       <div class="modal-footer">
