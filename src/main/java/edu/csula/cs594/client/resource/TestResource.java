@@ -428,6 +428,22 @@ public class TestResource {
     }
 
     @GET
+    @Path("compare")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCompareData(@QueryParam("projectlist") String projectlist) throws SQLException {
+
+        String[] projectNames = projectlist.split(";");
+
+        logger.info("Returning compare graph data for projects: " + Arrays.toString(projectNames));
+
+        StatusResponse r = dbClient.getCompareGraph(projectNames);
+        r.setUri("http://localhost:8080/loadtester/v1/compare");
+        r.setRequestType("compare");
+
+        return Response.ok().entity(r).build();
+    }
+
+    @GET
     @Path("availability")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAvailability(@QueryParam("mode") String mode, @QueryParam("date") String date, @QueryParam("projectId") int projectId) throws SQLException {

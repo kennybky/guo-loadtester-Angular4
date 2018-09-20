@@ -3,13 +3,17 @@ package edu.csula.cs594.client.resource;
 import com.google.gson.Gson;
 import edu.csula.cs594.client.CliClient;
 import edu.csula.cs594.client.DatabaseClient;
+import edu.csula.cs594.client.JWTTokenNeeded;
 import edu.csula.cs594.client.dao.StatusResponse;
+import edu.csula.cs594.client.dao.model.User;
 import edu.csula.cs594.client.results.GenericResult;
 import edu.csula.cs594.client.results.project.GetProjectResult;
 import edu.csula.cs594.client.dao.model.Project;
 import edu.csula.cs594.client.results.project.*;
+import org.apache.http.HttpRequest;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -22,6 +26,10 @@ public class WebProjectResource {
 
     private final DatabaseClient dbClient;
     private final Map<Integer, CliClient> cliClientMap;
+    private User user;
+    @Context private HttpServletRequest request;
+
+
 
     public WebProjectResource(@Context ServletContext context) {
         dbClient = (DatabaseClient) context.getAttribute("dbClient");
@@ -47,6 +55,23 @@ public class WebProjectResource {
         System.out.println("GET - /project/" + id);
 
         GetProjectByIdResult result = dbClient.getProjectById(id);
+        return Response
+                .status(Response.Status.OK)
+                .entity(new Gson().toJson(result))
+                .build();
+    }
+
+    @GET
+    @Path("/test")
+    @JWTTokenNeeded
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response testContext() {
+
+
+        User result = (User) request.getAttribute("User");
+        if(result == null){
+            System.out.println("User Is null");
+        }
         return Response
                 .status(Response.Status.OK)
                 .entity(new Gson().toJson(result))

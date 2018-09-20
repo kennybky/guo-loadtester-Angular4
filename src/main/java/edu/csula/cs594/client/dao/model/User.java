@@ -6,7 +6,21 @@ public class User {
   private String lastName;
   private String email;
   private String username;
+
+  public String getHash() {
+    return hash;
+  }
+
+  public void setHash(String hash) {
+    this.hash = hash;
+  }
+
   private String password;
+  private String hash;
+
+  public User(){
+      this.username = "none";
+  }
 
 
   public User(int id, String firstName, String lastName,

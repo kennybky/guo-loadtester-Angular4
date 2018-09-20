@@ -15,6 +15,10 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>edu.csula.cs594.client</param-value>
         </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
+            <param-value>edu.csula.cs594.client.ControllerAdvice</param-value>
+        </init-param>
 
         <init-param>
             <param-name>jersey.config.server.provider.classnames</param-name>

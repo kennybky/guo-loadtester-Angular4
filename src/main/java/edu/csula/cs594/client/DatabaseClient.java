@@ -840,6 +840,39 @@ public class DatabaseClient {
         }
     }
 
+    public StatusResponse getCompareGraph(String[] projectNames) throws SQLException {
+
+        final String query = "select (b.success/t.calls), t.projectname from (select count(*) as calls, projectname from stats.deltas join stats.projects on projectid = stats.projects.id where projectid = 9) as t \n" +
+                "join \n" +
+                "(select count(*) as success from stats.deltas join stats.projects on projectid = stats.projects.id where projectid = 9 and statusCode = 200) as b;\n";
+        try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
+
+            BarGraph graph = new BarGraph(true);
+            graph.setCaption("Statistics - comparison  for Selected Projects");
+            graph.setXaxis("Selected Projects");
+
+
+                    graph.setYaxis("Success Rate in %");
+
+
+            for (String projectName : projectNames) {
+                logger.info("CompareGraph: processing projectName=" + projectName);
+                int projectId = getProjectId(projectName);
+                logger.info("CompareGraph: processing projectName=" + projectName + " and projectId=" + projectId);
+
+                preparedStatement.setInt(1, projectId);
+
+                ProjectResponse projectInfo = getProject(projectId);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    GraphResultSetSource iterator = new GraphResultSetSource(resultSet, true);
+                    graph.addSeries(iterator, projectInfo.getProjectname());
+                }
+            }
+
+            return graph.getResult();
+        }
+    }
+
     @Deprecated
     public StatusResponse getLoadTestResults(int projectid) throws SQLException {
 

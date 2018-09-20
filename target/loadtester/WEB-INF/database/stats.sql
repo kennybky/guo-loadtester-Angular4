@@ -7,8 +7,17 @@ drop table if exists deltas;
 drop table if exists projects;
 drop table if exists services;
 
+create table if not exists users (
+id int primary key not null auto_increment,
+username varchar(25) unique not null,
+hash varchar(1024) not null,
+name varchar(255),
+email varchar(255)
+)
+
 create table if not exists projects (
-	id int primary key not null auto_increment
+	id int primary key not null auto_increment,
+	userId, not null
 	, projectname varchar(256) unique not null
     , uri varchar(1024) not null
     , testType varchar(256) not null
@@ -22,7 +31,9 @@ create table if not exists projects (
     , avgResponseTime int
     , userCount int
     , failedRequests int
-    , dateCreated timestamp not null default current_timestamp
+    , dateCreated timestamp not null default current_timestamp,
+    INDEX(userId)
+    FOREIGN KEY (userId) REFERENCES users(id)
 );
 
 create table if not exists deltas ( 

@@ -40,7 +40,6 @@ public class ServletContextListenerImpl implements ServletContextListener {
     
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        
         // Used everywhere
         logger.info("Adding database client to ServletContext...");
         dbClient = new DatabaseClient();

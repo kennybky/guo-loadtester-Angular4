@@ -90,7 +90,6 @@ public class WebServiceResource {
 
     @POST
     @Path("/query")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response queryWS(String project) {
         System.out.println("POST - /ws/query");
