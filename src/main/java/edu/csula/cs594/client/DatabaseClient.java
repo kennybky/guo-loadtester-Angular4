@@ -154,11 +154,12 @@ public class DatabaseClient {
     public int createScheduledRun(String projectName, String uri, String testType, long scheduleInterval) throws SQLException {
         int generatedKey = 0;
         try (PreparedStatement preparedStatement = connect.prepareStatement("insert into stats.projects (id, "
-                + "projectname, uri, testType, scheduleInterval) values (null, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                + "projectname, uri, testType, scheduleInterval, userId) values (null, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, projectName);
             preparedStatement.setString(2, uri);
             preparedStatement.setString(3, testType);
             preparedStatement.setLong(4, scheduleInterval);
+            preparedStatement.setInt(5, 1); //UserId
             preparedStatement.execute();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             if (rs.next()) {
@@ -288,15 +289,17 @@ public class DatabaseClient {
 
     // dbClient.createPerformanceProject(uri, projectName, requestCount);
     public int createPerformanceProject(String projectName, String uri, String method) throws SQLException {
-        String query = "insert into stats.projects (uri, projectname, testType, method) values (?, ?, ?, ?)";
+        String query = "insert into stats.projects (uri, projectname, testType, method, userId) values (?, ?, ?,?,?)";
         try (PreparedStatement pstmt = connect.prepareStatement(query)) {
             pstmt.setString(1, uri);
             pstmt.setString(2, projectName);
             pstmt.setString(3, "performance");
             pstmt.setString(4, method);
+            pstmt.setInt(5, 1); //UserId
             pstmt.executeUpdate();
         } catch (SQLException e) {
             logger.error("Couldn't create a performance project.", e);
+            return -1;
         }
         return getProjectId(projectName);
     }
@@ -860,8 +863,6 @@ public class DatabaseClient {
                 int projectId = getProjectId(projectName);
                 logger.info("CompareGraph: processing projectName=" + projectName + " and projectId=" + projectId);
 
-                preparedStatement.setInt(1, projectId);
-
                 ProjectResponse projectInfo = getProject(projectId);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     GraphResultSetSource iterator = new GraphResultSetSource(resultSet, true);
@@ -1083,7 +1084,7 @@ public class DatabaseClient {
                                         int testDuration, int stepDurationMs, int stepCount, int userCount) throws SQLException {
 
         try (PreparedStatement preparedStatement = connect.prepareStatement("insert into stats.projects (projectname, uri, testType, "
-                + "distribution, warmUpTime, testDuration, stepDuration, stepCount, userCount) values (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                + "distribution, warmUpTime, testDuration, stepDuration, stepCount, userCount, userId) values (?,?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
             preparedStatement.setString(1, projectName);
             preparedStatement.setString(2, uri);
             preparedStatement.setString(3, "scalability");
@@ -1093,6 +1094,7 @@ public class DatabaseClient {
             preparedStatement.setInt(7, stepDurationMs);
             preparedStatement.setInt(8, stepCount);
             preparedStatement.setInt(9, userCount);
+            preparedStatement.setInt(10, 1); //UserId
 
             preparedStatement.executeUpdate();
         }
@@ -1106,7 +1108,7 @@ public class DatabaseClient {
                                      int testDuration, int stepDurationMs, int stepCount, int userCount) throws SQLException {
 
         try (PreparedStatement preparedStatement = connect.prepareStatement("insert into stats.projects (projectname, uri, testType, "
-                + "warmUpTime, testDuration, stepDuration, stepCount, userCount) values (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                + "warmUpTime, testDuration, stepDuration, stepCount, userCount, userId) values (?,?, ?, ?, ?, ?, ?, ?, ?,?)")) {
             preparedStatement.setString(1, projectName);
             preparedStatement.setString(2, uri);
             preparedStatement.setString(3, "capacity");
@@ -1115,6 +1117,7 @@ public class DatabaseClient {
             preparedStatement.setInt(6, stepDurationMs);
             preparedStatement.setInt(7, stepCount);
             preparedStatement.setInt(8, userCount);
+            preparedStatement.setInt(10, 1); //UserId
 
             preparedStatement.executeUpdate();
         }

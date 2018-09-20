@@ -180,6 +180,9 @@ public class TestResource {
         	boolean isretest = false;
         	if (projectId == -1) {
         		projectId = dbClient.createPerformanceProject(projectName, uri, method);
+        		if(projectId == -1){
+        		    return Response.status(400).entity("Error Creating Project").build();
+                }
         	} else {
         		isretest = true;
         	}

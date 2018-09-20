@@ -24,6 +24,7 @@ create table if not exists projects (
     , scheduleInterval BIGINT
     , distribution varchar(256)
     , warmUpTime int
+    , method varchar(20)
     , testDuration int
     , stepDuration BIGINT
     , stepCount int
@@ -62,6 +63,8 @@ create table if not exists services (
     , parameters varchar(256)
     , INDEX(name)
 );
+
+insert into stats.users values (0, 'Demo', '$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6', 'Demo', 'Demo@example.com');
 
 INSERT INTO `services` VALUES (1,'Global Weather','http://www.webservicex.net/globalweather.asmx?WSDL','http://www.webservicex.net/globalweather.asmx/','http://www.webservicex.net/globalweather.asmx/GetWeather?CountryName=Spain&CityName=Madrid','GetWeather','CountryName,CityName'),
 (2,'Global Weather','http://www.webservicex.net/globalweather.asmx?WSDL','http://www.webservicex.net/globalweather.asmx/','http://www.webservicex.net/globalweather.asmx/GetCitiesByCountry?CountryName=China','GetCitiesByCountry','CountryName'),
