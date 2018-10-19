@@ -41,6 +41,7 @@ public class ControllerAdvice implements ContainerRequestFilter {
             httpRequest.setAttribute("User", user);
         } catch(Exception se) {
             httpRequest.setAttribute("User", new User());
+            System.out.println("Here");
         }
 
     }

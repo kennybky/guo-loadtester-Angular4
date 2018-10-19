@@ -1,0 +1,185 @@
+svg {
+  width  : 100%;
+  height : 750px;
+  border : dotted dodgerblue thin;
+}
+
+.modal {
+  background: rgba(0,0,0,0.15);
+}
+
+.visual {
+  height : 1000px !important;
+  width  : 1000px !important;
+  border : none;
+}
+
+g.node circle {
+  fill         : rgb(229, 239, 255);
+  stroke       : rgb(190, 210, 240);
+  stroke-width : 4px;
+}
+
+g.node-selected circle {
+  stroke       : rgb(51, 108, 215) !important;
+  stroke-width : 5px;
+}
+
+g.node-composite circle {
+  fill         : rgb(255, 238, 200);
+  stroke       : rgb(240, 210, 185);
+  stroke-width : 4px;
+}
+
+g.node-composite-selected circle {
+  stroke       : rgb(245, 188, 51) !important;
+  stroke-width : 5px;
+}
+
+g.node-input circle {
+  fill         : rgb(255, 218, 220);
+  stroke       : rgb(240, 181, 178);
+  stroke-width : 4px;
+}
+
+g.node-input-selected circle {
+  stroke       : rgb(240, 21, 18) !important;
+  stroke-width : 5px;
+}
+
+g.node-output circle {
+  fill         : rgb(198, 255, 200);
+  stroke       : rgb(161, 230, 158);
+  stroke-width : 4px;
+}
+
+g.node-output-selected circle {
+  stroke       : rgb(21, 220, 18) !important;
+  stroke-width : 5px;
+}
+
+div#d3-editor text {
+  fill        : rgb(34, 34, 35);
+  font-size   : 16px;
+  font-family : monospace;
+  font-weight : bolder;
+}
+
+text.tree-text {
+  font-size : 16px !important;
+}
+
+/*g.conceptG:hover circle {*/
+  /*fill   : rgb(255, 245, 117);*/
+  /*stroke : rgb(235, 225, 97) !important;*/
+/*}*/
+
+g.clicked-node circle {
+  fill : pink !important;
+}
+
+/*g.selected:hover circle {*/
+  /*fill   : rgb(255, 245, 117);*/
+  /*stroke : rgb(215, 205, 77) !important;;*/
+/*}*/
+
+path.link {
+  fill         : #ccc;
+  stroke       : #ccc;
+  stroke-width : 4px;
+  cursor       : default;
+}
+
+marker {
+  fill   : #ccc;
+  stroke : #ccc;
+}
+
+/*path.link:hover {*/
+  /*fill   : rgb(255, 245, 117);*/
+  /*stroke : rgb(235, 225, 97) !important;*/
+/*}*/
+
+g.connect-node circle {
+  fill : #BEFFFF;
+}
+
+path.link.hidden {
+  stroke-width : 0;
+}
+
+path.link.selected {
+  fill   : rgb(91, 148, 255);
+  stroke : rgb(71, 128, 235) !important;
+}
+
+.composite-node {
+  fill         : rgb(255, 208, 100);
+  stroke       : rgb(240, 180, 85);
+  stroke-width : 5px;
+}
+
+.root-node {
+  fill         : rgb(110, 144, 255); /* dodgerblue */
+  stroke       : rgb(0, 114, 225);
+  stroke-width : 5px;
+}
+
+.children {
+  font-size : 15px !important;
+}
+
+/* Based on http://bl.ocks.org/d3noob/a22c42db65eb00d4e369 */
+div.tooltip {
+  position       : absolute;
+  text-align     : left;
+  min-width      : 350px;
+  max-width      : 350px;
+  padding        : 2px;
+  font           : 15px sans-serif;
+  background     : rgba(176, 196, 222, .50);
+  border         : 0;
+  border-radius  : 8px;
+  pointer-events : none;
+}
+
+div.tooltip dl {
+  margin-left : 5px;
+}
+
+.svg-ctree {
+  width  : 960px;
+  height : 800px;
+}
+
+div#d3-ctree .node {
+  cursor : pointer;
+}
+
+div#d3-ctree .node circle {
+  fill         : #fff;
+  stroke       : steelblue;
+  stroke-width : 2px;
+}
+
+div#d3-ctree .node text {
+  font : 10px sans-serif;
+}
+
+div#d3-ctree .link {
+  fill         : none;
+  stroke       : #ccc;
+  stroke-width : 1px;
+}
+
+#svg-barChart {
+  width  : 600px !important;
+  height : 100% !important;
+  border : none !important;
+}
+
+#lineChart {
+  width  : 600px !important;
+  height : 100% !important;
+  border : none !important;
+}

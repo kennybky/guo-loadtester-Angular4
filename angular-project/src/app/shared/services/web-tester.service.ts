@@ -24,38 +24,38 @@ export class WebTesterService {
         params: params,
         uri: url
       }
-        var uri = "v1/ws/query";
+        var uri = "/v1/ws/query";
         return this.http.post(uri,JSON.stringify(obj));
       }
 
       save (project) {
-        const url = `v1/webprojects/${project.dbId}`
+        const url = `/v1/webprojects/${project.dbId}`
         return this.http.put(url,  {id: project.dbId, data: JSON.stringify(project)});
       }
 
       saveStats(project, avg){
-        const url = `v1/webprojects/${project.dbId}/save?url=${project.url}&avg=${avg}`
+        const url = `/v1/webprojects/${project.dbId}/save?url=${project.url}&avg=${avg}`
         return this.http.post(url, null);
       }
 
       getGraphData(id){
-        const url = `v1/webprojects/${id}/graph`
+        const url = `/v1/webprojects/${id}/graph`
         return this.http.get(url);
       }
 
       createProjectDb(project)  {
-        const url = `v1/webprojects/add`;
+        const url = `/v1/webprojects/add`;
         return this.http
           .post(url, {id: project.dbId, data: JSON.stringify(project)})
       }
 
       deleteProjectDb(id){
-        return this.http.delete(`v1/webprojects/${id}`);
+        return this.http.delete(`/v1/webprojects/${id}`);
       }
 
       getProjectsDb() {
         return this.http
-          .get("v1/webprojects/")
+          .get("/v1/webprojects/")
       }
 
 

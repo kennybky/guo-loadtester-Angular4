@@ -64,6 +64,21 @@ create table if not exists services (
     , INDEX(name)
 );
 
+create table if not exists webprojects (
+id int primary key not null auto_increment
+, data longtext
+);
+
+create table if not exists webstats (
+id int primary key not null auto_increment
+,projectid int not null
+,uri varchar(255)
+,responsetime int
+, testdate timestamp not null default current_timestamp
+,INDEX(projectid)
+, FOREIGN KEY (projectid) REFERENCES webprojects(id)
+);
+
 insert into stats.users values (0, 'Demo', '$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6', 'Demo', 'Demo@example.com');
 
 INSERT INTO `services` VALUES (1,'Global Weather','http://www.webservicex.net/globalweather.asmx?WSDL','http://www.webservicex.net/globalweather.asmx/','http://www.webservicex.net/globalweather.asmx/GetWeather?CountryName=Spain&CityName=Madrid','GetWeather','CountryName,CityName'),

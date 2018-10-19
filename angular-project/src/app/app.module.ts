@@ -31,6 +31,9 @@ import {Retester} from './shared/models/retester';
 import { ActionMessageComponent } from './action-message/action-message.component';
 import { LoginComponent } from './login/login.component';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import {TokenInterceptorService} from './shared/services/token-interceptor.service';
+
 
 
 @NgModule({
@@ -72,6 +75,11 @@ import { LoginComponent } from './login/login.component';
     GoogleChartsBaseService,
     UrlBuilder,
     Retester,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
     {provide: LocationStrategy, useClass: HashLocationStrategy},
   ],
   bootstrap: [AppComponent]

@@ -2,8 +2,7 @@ package edu.csula.cs594.client.dao.model;
 
 public class User {
   private int id;
-  private String firstName;
-  private String lastName;
+  private String name;
   private String email;
   private String username;
 
@@ -18,20 +17,28 @@ public class User {
   private String password;
   private String hash;
 
-  public User(){
-      this.username = "none";
+  public User() {
+      this.id = 1;
+      this.name = "Demo";
+      this.username = "Demo";
+      this.email = "Demo@example.com";
   }
 
 
-  public User(int id, String firstName, String lastName,
-      String email, String username, String password) {
+  public User(int id, String username, String name, String email) {
     this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.name = name;
     this.email = email;
-    this.password = password;
     this.username = username;
   }
+
+    public User(int id, String username, String hash, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.hash = hash;
+    }
 
   public int getId() {
     return id;
@@ -41,20 +48,13 @@ public class User {
     this.id = id;
   }
 
-  public String getFirstName() {
-    return firstName;
+
+  public String getName() {
+    return name;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getEmail() {

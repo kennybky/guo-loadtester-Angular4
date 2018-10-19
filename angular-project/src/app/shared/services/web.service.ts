@@ -9,7 +9,7 @@ export class WebService {
 
 
    getServices() {
-    return this.http.get("v1/service/get");
+    return this.http.get("/v1/service/get");
   }
 
    saveTestUrl(uri, serviceId = null): Observable<any> {
@@ -21,15 +21,15 @@ export class WebService {
     }
     if (serviceId) {
       //save the uri to a service that has attributes used for building the url
-      return this.http.get("v1/service/saveUrlForBuilder?id=" + serviceId + "&uri=" + formattedUri);
+      return this.http.get("/v1/service/saveUrlForBuilder?id=" + serviceId + "&uri=" + formattedUri);
     } else {
       //save the uri to the service table, but it has no attributes for building the url
-      return this.http.get("v1/service/saveUrl?uri=" + formattedUri);
+      return this.http.get("/v1/service/saveUrl?uri=" + formattedUri);
     }
   }
 
   getSavedUrls() {
-    return this.http.get("v1/service/getSavedUrls");
+    return this.http.get("/v1/service/getSavedUrls");
   }
 
     saveWSDL(name, descriptionUri) {
@@ -39,7 +39,7 @@ export class WebService {
     } else {
       descriptionUri = encodeURIComponent(descriptionUri);
     }
-    return this.http.get('v1/service/save?name=' + name +
+    return this.http.get('/v1/service/save?name=' + name +
       '&descriptionUri=' + descriptionUri);
   }
 
@@ -64,7 +64,7 @@ export class WebService {
   }
 
    deleteService(service) {
-    return this.http.get('v1/service/delete?id=' + service.id);
+    return this.http.get('/v1/service/delete?id=' + service.id);
   }
 
    formatParams(services) {

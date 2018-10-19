@@ -13,6 +13,7 @@ import {ChartOptionsService} from '../shared/services/charts/chart-options.servi
 import * as Chart from 'chart.js';
 
 import {StatusPromisesService} from '../shared/services/status-promises.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -66,15 +67,15 @@ export class NewProjectComponent implements OnInit, OnDestroy, OnChanges, AfterV
   webUrl = "" as any;
   project_options: ProjectOptions;
   dataSource = {} as any;
-  @ViewChild(WizardComponent)
-  public wizard: WizardComponent
+
+  @ViewChild('wizard') wizard: WizardComponent;
 
   viewInit:Promise<any>;
 
 
 
 
-  constructor(private webServices: WebService, private tester: TesterService, private retester: Retester,
+  constructor(private router: Router, private webServices: WebService, private tester: TesterService, private retester: Retester,
               private urlBuilder: UrlBuilder, private realTimePerformance: RealTimePerformanceService,
               private statusPromises: StatusPromisesService, private chartTracker: ChartTrackerService, private chartOptions: ChartOptionsService) {
     // this.activate();
@@ -102,6 +103,7 @@ export class NewProjectComponent implements OnInit, OnDestroy, OnChanges, AfterV
   ngOnDestroy() {
     this.retester.setProject(null);
     this.retester.setService(null);
+    this.retester.isRetest = false;
     for (var timeo in this.timeOuts) clearTimeout(this.timeOuts[timeo]);
   /*chartTracker.clearGoogleCharts();
  chartTracker.clearFusionCharts();
@@ -113,26 +115,21 @@ export class NewProjectComponent implements OnInit, OnDestroy, OnChanges, AfterV
   }
 
   finishFunction() {
-
+this.activate()
+   // this.router.navigateByUrl('home');
   }
 
   ngAfterViewInit(): void {
     let vm = this;
     if (this.retester.isRetest) {
       if (this.project && this.project.options) {
-        console.log(this.project)
+        console.log(this.project);
 
         this.skipValidation = true;
-        /*$scope.$watch(
-          function () {
-            return WizardHandler.wizard();
-          },
-          function (wizard) {
-            if (wizard) wizard.goTo("Review & Start Testing");
-          });*/
 
-        this.wizard.navigation.canGoToStep(3).then((response)=>{
-          vm.wizard.navigation.goToStep(3);
+
+        this.wizard.navigation.canGoToStep(2).then((response)=>{
+          vm.wizard.navigation.goToStep(2);
           setTimeout(function () {
 
             vm.skipValidation = false;
@@ -392,6 +389,7 @@ export class NewProjectComponent implements OnInit, OnDestroy, OnChanges, AfterV
     }
     initTestProm.promise.then(function(response:any) {
       if (response.projectid !== -1) vm.project.id = response.projectid;
+      console.log(response)
       vm.testProgMsg(response.running, response.message);
     });
   }

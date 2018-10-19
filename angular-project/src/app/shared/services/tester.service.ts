@@ -16,14 +16,14 @@ export class TesterService {
     let encodedUrl = encodeURIComponent(url);
 
     if (type === 'performance') {
-      var uri = "v1/test/startPerformanceTest?uri=" + encodedUrl
+      var uri = "/v1/test/startPerformanceTest?uri=" + encodedUrl
         + "&projectName=" + projectName + "&method=" + project.method;
       return this.http.get(uri);
     }
 
     if (type === 'capacity') {
       console.log('calling capacity url');
-      var uri = "v1/test/startCapacityTest?uri=" + encodedUrl + "&projectname=" + projectName
+      var uri = "/v1/test/startCapacityTest?uri=" + encodedUrl + "&projectname=" + projectName
         + "&userCount=" + options.userCount + "&warmUpTime="
         + options.warmUpTime + "&testTime=" + options.testTime + "&stepDuration=" + options.stepDuration
         + "&stepCount=" + options.stepCount + "&failuresPermitted="
@@ -32,18 +32,19 @@ export class TesterService {
     }
 
     if (type === 'scalability') {
-      var uri = "v1/test/startScalabilityTest?uri=" + encodedUrl + "&projectname=" + projectName
+      var uri = "/v1/test/startScalabilityTest?uri=" + encodedUrl + "&projectname=" + projectName
         + "&distribution=" + options.distribution + "&userCount=" + options.userCount + "&warmUpTime="
         + options.warmUpTime + "&testTime=" + options.testTime + "&stepDuration=" + options.stepDuration
         + "&stepCount=" + options.stepCount + "&failuresPermitted="
         + options.failuresPermitted+ "&method=" + project.method;
+      console.log(uri)
       return this.http.get(uri);
     }
 
     if (type === 'availability' || type === 'reliability') {
       var interval = this.intervalToMs(options.interval, options.timeUnits);
       console.log("Ms interval: " + interval);
-      return this.http.get('v1/test/startScheduledTest?projectName=' + projectName + '&uri=' + encodedUrl
+      return this.http.get('/v1/test/startScheduledTest?projectName=' + projectName + '&uri=' + encodedUrl
         + '&interval=' + interval + '&timeout=' + options.timeout+ "&method=" + project.method);
     }
   }
@@ -66,11 +67,11 @@ export class TesterService {
 
    stop(projectId): Observable<any> {
     console.log("stop called");
-    return this.http.get('v1/test/stop?projectId=' + projectId);
+    return this.http.get('/v1/test/stop?projectId=' + projectId);
   }
 
   getPerformanceStatus(projectId): Observable<any> {
-    var uri = "v1/test/realTimePerformance?projectId=" + projectId;
+    var uri = "/v1/test/realTimePerformance?projectId=" + projectId;
     return this.http.get(uri);
   }
 
@@ -83,7 +84,7 @@ export class TesterService {
    * @returns {*}
    */
    getScalabilityStatus(url, projectId): Observable<any> {
-    var uri = "v1/test/scalabilityStatus?uri=" + url + "&projectId=" + projectId;
+    var uri = "/v1/test/scalabilityStatus?uri=" + url + "&projectId=" + projectId;
     return this.http.get(uri);
   }
 
@@ -97,12 +98,12 @@ export class TesterService {
    */
  getCapacityStatus(url, projectId): Observable<any> {
     console.log('calling capacity status');
-    var uri = "v1/test/capacityStatus?uri=" + url + "&projectId=" + projectId;
+    var uri = "/v1/test/capacityStatus?uri=" + url + "&projectId=" + projectId;
     return this.http.get(uri);
   }
 
    validateProjectName(name): Observable<any> {
-    var uri = "v1/test/validateProjectName?name=" + name;
+    var uri = "/v1/test/validateProjectName?name=" + name;
     return this.http.get(uri);
   }
 }

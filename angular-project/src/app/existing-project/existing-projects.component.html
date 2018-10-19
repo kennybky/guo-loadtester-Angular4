@@ -14,6 +14,7 @@
                       Projects</h3>
                   </div>
                   <div class="card-body">
+                    <div class="table-responsive">
                     <table class="table text-center table-striped table-bordered table-hover">
                       <thead>
                       <tr class="success">
@@ -64,7 +65,7 @@
                                     data-toggle="modal" data-target="#availSettings">
                               <i class="fa fa-history" aria-hidden="true"></i>&nbsp;&nbsp;Availability
                             </button>
-                            <button flex (click)="getReliability(project)"
+                            <button (click)="getReliability(project)"
                                     class="btn-spacer btn btn-sm btn-info"
                                     data-toggle="modal" data-target="#reliability">
                               <i class="fa fa-heartbeat" aria-hidden="true"></i>&nbsp;&nbsp;Reliability
@@ -74,12 +75,17 @@
                       </tr>
                       </tbody>
                     </table>
+                    </div>
                     <div class="row">
                       <div class="col-md-7">
                         <button class="btn btn-danger"
                                 (click)="deleteProjects(scheduledProjects)">
                           <i class="fa fa-times-circle"></i>&nbsp;&nbsp;&nbsp;Delete
                         </button>
+                        <!--<button [hidden]="act !== 'Load'" class="btn btn-primary"-->
+                                <!--(click)="load()">-->
+                          <!--<i class="fa fa-line-chart"></i>&nbsp;&nbsp;&nbsp;Load-->
+                        <!--</button>-->
                         <button class="btn btn-info" (click)="retest(scheduledProjects)">
                           <i class="fa fa-repeat"></i>&nbsp;&nbsp;&nbsp;Re-test
                         </button>
@@ -105,6 +111,7 @@
                       Projects</h3>
                   </div>
                   <div class="card-body">
+                    <div class="table-responsive">
                     <table id="projectTable"
                            class="table text-center table-striped table-bordered table-hover">
                       <thead>
@@ -153,6 +160,7 @@
                       </tr>
                       </tbody>
                     </table>
+                    </div>
                     <div class="row">
                       <div class="col-md-7">
                         <button class="btn btn-danger"
@@ -270,7 +278,8 @@
                     Load
                     Results</h3>
                 </div>
-                <div [hidden]="compareResultsTable" class="card-body ng-hide">
+                <div [hidden]="compareResultsTable" class="card-body">
+                  <div class="table-responsive">
                   <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>
@@ -287,6 +296,7 @@
                     </tr>
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
               <div>

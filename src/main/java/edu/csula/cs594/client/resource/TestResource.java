@@ -1,11 +1,9 @@
 package edu.csula.cs594.client.resource;
 
-import edu.csula.cs594.client.CliClient;
-import edu.csula.cs594.client.DataConsumer;
-import edu.csula.cs594.client.DatabaseClient;
-import edu.csula.cs594.client.TestContext;
+import edu.csula.cs594.client.*;
 import edu.csula.cs594.client.TestContext.Type;
 import edu.csula.cs594.client.dao.*;
+import edu.csula.cs594.client.dao.model.User;
 import edu.csula.cs594.client.graph.dao.AngularChart;
 import edu.csula.cs594.client.loadfunctions.LoadFactory;
 
@@ -17,6 +15,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -37,6 +36,8 @@ public class TestResource {
     private final Map<Integer, DataConsumer> consumerMap;
     private final Map<Integer, TestContext> testContextMap;
 
+    @Context private HttpServletRequest request;
+
     public TestResource(@Context ServletContext context) {
         dbClient = (DatabaseClient) context.getAttribute("dbClient");
         testers = (ExecutorService) context.getAttribute("testThreadPool");
@@ -49,6 +50,7 @@ public class TestResource {
 
     @GET
     @Path("startScheduledTest")
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     public Response startScheduledTest(@QueryParam("projectName") String projectName, @QueryParam("uri") String uri,
                                        @QueryParam("interval") long testInterval, @QueryParam("timeout") long timeout,
@@ -56,7 +58,10 @@ public class TestResource {
             InterruptedException, IOException, ExecutionException {
 
         eraseOldProject(projectName);
-        int projectId = dbClient.createScheduledRun(projectName, uri, "scheduled", testInterval);
+
+        User user = (User) request.getAttribute("User");
+
+        int projectId = dbClient.createScheduledRun(projectName, uri, "scheduled", testInterval, user);
         TestContext testContext = new TestContext(projectId, uri, Type.SCHEDULED, dbClient, consumers);
         testContext.setMethod(method);
         testContext.setTestInterval(testInterval);
@@ -69,6 +74,7 @@ public class TestResource {
     }
 
     @GET
+    @JWTTokenNeeded
     @Path("startCapacityTest")
     @Produces(MediaType.APPLICATION_JSON)
     public Response startCapacityTest(
@@ -85,7 +91,8 @@ public class TestResource {
         eraseOldProject(projectName);
         StatusResponse r;
         try {
-            int projectId = dbClient.createCapacityProject(projectName, uri, warmUpTime, testTime, stepDurationMs, stepCount, userCount);
+            User user = (User) request.getAttribute("User");
+            int projectId = dbClient.createCapacityProject(projectName, uri, warmUpTime, testTime, stepDurationMs, stepCount, userCount, user);
             TestContext testContext = new TestContext(projectId, uri, Type.CAPACITY, dbClient, consumers);
             testContext.setInitialUserCount(userCount);
             testContext.setWarmUpDuration(warmUpTime);
@@ -112,6 +119,7 @@ public class TestResource {
     //projectname	Project 1
     //distribution	Uniform
     @GET
+    @JWTTokenNeeded
     @Path("startScalabilityTest")
     @Produces(MediaType.APPLICATION_JSON)
     public Response startScalabilityTest(
@@ -144,8 +152,9 @@ public class TestResource {
         eraseOldProject(projectName);
         StatusResponse r;
         try {
+            User user = (User) request.getAttribute("User");
             int projectId = dbClient.createScalabilityProject(projectName, uri, distribution, warmUpTime,
-                    testTime, stepDurationMs, stepCount, userCount);
+                    testTime, stepDurationMs, stepCount, userCount, user);
             TestContext testContext = new TestContext(projectId, uri, Type.CAPACITY, dbClient, consumers);
             testContext.setInitialUserCount(userCount);
             testContext.setWarmUpDuration(warmUpTime);
@@ -168,6 +177,7 @@ public class TestResource {
     }
 
     @GET
+    @JWTTokenNeeded
     @Path("startPerformanceTest")
     @Produces(MediaType.APPLICATION_JSON)
     public Response startPerformanceTest(@QueryParam("projectName") String projectName, @QueryParam("uri") String uri,
@@ -176,10 +186,11 @@ public class TestResource {
         //eraseOldProject(projectName);
         StatusResponse r;
         try {
+            User user = (User) request.getAttribute("User");
         	int projectId = getProjectId(projectName);// Get if project exists already
         	boolean isretest = false;
         	if (projectId == -1) {
-        		projectId = dbClient.createPerformanceProject(projectName, uri, method);
+        		projectId = dbClient.createPerformanceProject(projectName, uri, method, user);
         		if(projectId == -1){
         		    return Response.status(400).entity("Error Creating Project").build();
                 }
@@ -424,7 +435,7 @@ public class TestResource {
         logger.info("Returning stats graph data for projects: " + Arrays.toString(projectNames));
 
         StatusResponse r = dbClient.getStatsGraph(projectNames, type);
-        r.setUri("http://localhost:8080/loadtester/v1/stats");
+        r.setUri("/v1/stats");
         r.setRequestType("stats");
 
         return Response.ok().entity(r).build();
@@ -440,7 +451,7 @@ public class TestResource {
         logger.info("Returning compare graph data for projects: " + Arrays.toString(projectNames));
 
         StatusResponse r = dbClient.getCompareGraph(projectNames);
-        r.setUri("http://localhost:8080/loadtester/v1/compare");
+        r.setUri("/v1/compare");
         r.setRequestType("compare");
 
         return Response.ok().entity(r).build();
@@ -459,6 +470,8 @@ public class TestResource {
         } catch (java.text.ParseException e) {
             status.setMessage(e.toString());
         }
+
+        System.out.println(dateObj);
 
         if (null != dateObj) {
             try {

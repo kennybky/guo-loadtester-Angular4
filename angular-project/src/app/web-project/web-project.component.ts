@@ -213,7 +213,7 @@ export class WebProjectComponent implements OnInit, OnDestroy {
       }
 
       constructUri (uri){
-        let i = uri.indexOf("size")
+        let i = uri.indexOf("?size")
         if( i > -1){
           uri =  uri.substr(0, i)
         }
@@ -249,7 +249,7 @@ export class WebProjectComponent implements OnInit, OnDestroy {
         const project = new WebProject(this.generateTempId());
         project.service = service;
         if (service === 'upload'){
-          project.url = "http://localhost:8080/loadtester/v1/upload/test";
+          project.url = "/v1/upload/test";
           project.method = 'POST'
         }
         let vm = this;

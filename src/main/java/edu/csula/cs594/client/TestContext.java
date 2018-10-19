@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import edu.csula.cs594.client.dao.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +53,7 @@ public class TestContext {
     private final ExecutorService consumers;
 
     private final int projectId;
+    //private final User user;
     private final String uri;
     private int initialUserCount;
     private long startTime = 0;

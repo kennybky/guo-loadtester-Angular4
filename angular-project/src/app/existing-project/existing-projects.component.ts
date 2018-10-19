@@ -28,7 +28,7 @@ export class ExistingProjectsComponent implements OnInit, OnDestroy {
   constructor(private webServices: WebService, private tester: TesterService, private retester: Retester, private tableItems: TableItemsService,
               private urlBuilder: UrlBuilder, private realTimePerformance: RealTimePerformanceService, private chartLoader: ChartLoaderService,
               private statusPromises: StatusPromisesService, private chartData: ChartDataService, private projectData: ProjectDataService,
-              private chartTracker: ChartTrackerService, private chartOptions: ChartOptionsService,private router: Router) { }
+              private chartTracker: ChartTrackerService, private chartOptions: ChartOptionsService, private router: Router) {}
 
  act = '' as any;
   loadProjects = [] as any;
@@ -146,6 +146,8 @@ export class ExistingProjectsComponent implements OnInit, OnDestroy {
         this.allSelected = false;
         if (type === 'load') {
           this.act = this.projectData.updateLoadBtn(projects);
+        } else if (type === 'scheduled') {
+
         }
       }
 
@@ -166,7 +168,8 @@ export class ExistingProjectsComponent implements OnInit, OnDestroy {
 
       getAvailability() {
         let mode = this.availMode, jsonDate = this.availDate
-       let date = new Date(jsonDate.year, jsonDate.month, jsonDate.day)
+        let date = new Date(jsonDate.year, (jsonDate.month-1), jsonDate.day)
+        console.log(date)
 
         let vm = this;
         if(this.timeOuts.datePickerMsg) {

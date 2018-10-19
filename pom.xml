@@ -319,7 +319,7 @@
                 <configuration>
                     <url>http://localhost:8080</url>
                     <server>localhost</server>
-                    <path>/loadtester</path>
+                    <path>/</path>
                     <port>8080</port>
                 </configuration>
             </plugin>

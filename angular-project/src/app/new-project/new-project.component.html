@@ -8,7 +8,7 @@
         </p>
       </div>
       <div class="card-body">
-<aw-wizard [navigationMode]="'free'">
+<aw-wizard [navigationMode]="'free'" #wizard>
   <aw-wizard-step [stepTitle]="'Personalize'" [canExit]="nameValidation">
     <h1>Project Personalization</h1>
     <p>Enter a name for this project.</p>
@@ -423,7 +423,7 @@
     <button type="button" awPreviousStep class="btn btn-primary mx-1">Go to previous step</button>
     <button type="button" awNextStep class="btn btn-primary mx-1">Go to next step</button>
   </aw-wizard-step>
-  <aw-wizard-step awWizardCompletionStep [stepTitle]="'Review & Start Testing'">
+  <aw-wizard-step awWizardCompletionStep awEnableBackLinks [stepTitle]="'Review & Start Testing'">
 
       <h1>View project configuration and start the test.</h1>
       <p><strong>Project name</strong>: {{project.name}}</p>
@@ -497,7 +497,7 @@
       <input class="btn btn-info mx-sm-1" type="submit" awResetWizard value="Start another project" (click)="testStatus = false"/>
     <button type="button" [disabled]="testStatus"  awResetWizard class="btn btn-outline-secondary mx-sm-1">Back to first step</button>
     <button type="button" [disabled]="testStatus"  awPreviousStep class="btn btn-primary mx-sm-1">Previous Step</button>
-    <button type="button" (click)="finishFunction()" class="btn btn-success mx-sm-1">Finish</button>
+    <button type="button" [disabled]="testStatus" (click)="finishFunction()" awResetWizard  class="btn btn-success mx-sm-1">Finish</button>
 
   </aw-wizard-step>
 </aw-wizard>

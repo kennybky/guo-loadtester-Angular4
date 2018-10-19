@@ -4,6 +4,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import java.io.*;
+import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -14,6 +15,10 @@ import javax.ws.rs.core.UriInfo;
 public class UploadResource {
     /** The path to the folder where we want to store the uploaded files */
     private static final String UPLOAD_FOLDER = "c:/uploadedFiles/";
+
+    @Context
+    ServletContext servletContext;
+
     public UploadResource() {
     }
     @Context
@@ -79,12 +84,14 @@ public class UploadResource {
      * @throws SecurityException
      *             - in case you don't have permission to create the folder
      */
-    private void createFolderIfNotExists(String dirName)
+    private boolean createFolderIfNotExists(String dirName)
             throws SecurityException {
-        File theDir = new File(dirName);
+        String fileDir = servletContext.getRealPath( "/WEB-INF" );
+            File theDir = new File(fileDir + "/" + dirName);
         if (!theDir.exists()) {
-            theDir.mkdir();
+           return theDir.mkdir();
         }
+        return true;
     }
 
     private void mockUpload(String target, int size) throws IOException {
@@ -107,13 +114,16 @@ public class UploadResource {
     @Produces(MediaType.TEXT_PLAIN)
     public Response testUpload(@QueryParam("size") int size) {
         try {
-            createFolderIfNotExists(UPLOAD_FOLDER);
+           boolean success =  createFolderIfNotExists(UPLOAD_FOLDER);
+           System.out.println("File was created? " + success);
         } catch (SecurityException se) {
+            System.out.println(se.getMessage() + "here upload");
             return Response.status(500)
                     .entity("Can not create destination folder on server")
                     .build();
         }
-        String target = UPLOAD_FOLDER + "test.file";
+        String target =  servletContext.getRealPath( "/WEB-INF" ) + "/" + UPLOAD_FOLDER + "test.file";
+        System.out.println(target);
         try {
             mockUpload(target, size);
         } catch (IOException e) {

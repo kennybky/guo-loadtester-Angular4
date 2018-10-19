@@ -1,6 +1,7 @@
 package edu.csula.cs594.client;
 
 import edu.csula.cs594.client.dao.model.Project;
+import edu.csula.cs594.client.dao.model.User;
 import edu.csula.cs594.client.graph.ScrollLineGraph;
 import edu.csula.cs594.client.graph.dao.AngularChart;
 import edu.csula.cs594.client.dao.ProjectResponse;
@@ -40,8 +41,8 @@ public class DatabaseClient {
     private Connection connect = null;
 
     String defaultDatabase = "stats";
-    String dbUser = "root";
-    String dbPwd = "root";
+    String dbUser = "loadtester";
+    String dbPwd = "loadtester";
     String server = "localhost";
 
     public DatabaseClient() {
@@ -50,7 +51,7 @@ public class DatabaseClient {
             Class.forName("com.mysql.jdbc.Driver");
             // Setup the connection with the DB
             connect = DriverManager
-                    .getConnection("jdbc:mysql://" + server + "/" + defaultDatabase + "?user=" + dbUser + "&password=" + dbPwd);
+                    .getConnection("jdbc:mysql://" + server + "/" + defaultDatabase + "?autoReconnect=true&user=" + dbUser + "&password=" + dbPwd);
             connect.setAutoCommit(true);
             connect.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
@@ -68,7 +69,7 @@ public class DatabaseClient {
             Class.forName("com.mysql.jdbc.Driver");
             // Setup the connection with the DB
             connect = DriverManager
-                    .getConnection("jdbc:mysql://" + server + "/" + database + "?user=" + user + "&password=" + password);
+                    .getConnection("jdbc:mysql://" + server + "/" + database + "?autoReconnect=true&user=" + user + "&password=" + password);
             connect.setAutoCommit(true);
             connect.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
@@ -80,6 +81,23 @@ public class DatabaseClient {
 
     public Connection getConnection() {
         return connect;
+    }
+
+    public User getUser(String username) throws SQLException {
+        try(PreparedStatement ps = connect.prepareStatement("Select * from stats.users where username = ?")) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if(rs.next()) {
+                    int id = rs.getInt(1);
+                    String hash = rs.getString(3);
+                    String name = rs.getString(4);
+                    String email =  rs.getString(5);
+                    User user  = new User(id, username, hash, name, email);
+                    return user;
+                }
+            }
+        }
+         return null;
     }
 
     public boolean validateProjectName(String projectName) throws SQLException {
@@ -151,7 +169,7 @@ public class DatabaseClient {
         }
     }
 
-    public int createScheduledRun(String projectName, String uri, String testType, long scheduleInterval) throws SQLException {
+    public int createScheduledRun(String projectName, String uri, String testType, long scheduleInterval, User user) throws SQLException {
         int generatedKey = 0;
         try (PreparedStatement preparedStatement = connect.prepareStatement("insert into stats.projects (id, "
                 + "projectname, uri, testType, scheduleInterval, userId) values (null, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS)) {
@@ -159,7 +177,7 @@ public class DatabaseClient {
             preparedStatement.setString(2, uri);
             preparedStatement.setString(3, testType);
             preparedStatement.setLong(4, scheduleInterval);
-            preparedStatement.setInt(5, 1); //UserId
+            preparedStatement.setInt(5, user.getId()); //UserId
             preparedStatement.execute();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             if (rs.next()) {
@@ -288,14 +306,14 @@ public class DatabaseClient {
     }
 
     // dbClient.createPerformanceProject(uri, projectName, requestCount);
-    public int createPerformanceProject(String projectName, String uri, String method) throws SQLException {
+    public int createPerformanceProject(String projectName, String uri, String method, User user) throws SQLException {
         String query = "insert into stats.projects (uri, projectname, testType, method, userId) values (?, ?, ?,?,?)";
         try (PreparedStatement pstmt = connect.prepareStatement(query)) {
             pstmt.setString(1, uri);
             pstmt.setString(2, projectName);
             pstmt.setString(3, "performance");
             pstmt.setString(4, method);
-            pstmt.setInt(5, 1); //UserId
+            pstmt.setInt(5, user.getId()); //UserId
             pstmt.executeUpdate();
         } catch (SQLException e) {
             logger.error("Couldn't create a performance project.", e);
@@ -488,17 +506,18 @@ public class DatabaseClient {
         try {
             String sql = "INSERT INTO webprojects (data) VALUES(?)";
             PreparedStatement statement;
-            statement = connect.prepareStatement(sql);
+            statement = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, project.getData());
             int rowCount = statement.executeUpdate();
 
-            sql = "SELECT LAST_INSERT_ID();";
-            statement = connect.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
 
-            if(rowCount > 0 && resultSet.next())
-                projectId = resultSet.getInt("LAST_INSERT_ID()");
-            //rowCount = statement.executeUpdate();
+
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()){
+                projectId=rs.getInt(1);
+            }
+            rs.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1081,7 +1100,7 @@ public class DatabaseClient {
     }
 
     public int createScalabilityProject(String projectName, String uri, String distribution, int warmUpTime,
-                                        int testDuration, int stepDurationMs, int stepCount, int userCount) throws SQLException {
+                                        int testDuration, int stepDurationMs, int stepCount, int userCount, User user) throws SQLException {
 
         try (PreparedStatement preparedStatement = connect.prepareStatement("insert into stats.projects (projectname, uri, testType, "
                 + "distribution, warmUpTime, testDuration, stepDuration, stepCount, userCount, userId) values (?,?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
@@ -1094,7 +1113,7 @@ public class DatabaseClient {
             preparedStatement.setInt(7, stepDurationMs);
             preparedStatement.setInt(8, stepCount);
             preparedStatement.setInt(9, userCount);
-            preparedStatement.setInt(10, 1); //UserId
+            preparedStatement.setInt(10, user.getId()); //UserId
 
             preparedStatement.executeUpdate();
         }
@@ -1105,10 +1124,10 @@ public class DatabaseClient {
     }
 
     public int createCapacityProject(String projectName, String uri, int warmUpTime,
-                                     int testDuration, int stepDurationMs, int stepCount, int userCount) throws SQLException {
+                                     int testDuration, int stepDurationMs, int stepCount, int userCount, User user) throws SQLException {
 
         try (PreparedStatement preparedStatement = connect.prepareStatement("insert into stats.projects (projectname, uri, testType, "
-                + "warmUpTime, testDuration, stepDuration, stepCount, userCount, userId) values (?,?, ?, ?, ?, ?, ?, ?, ?,?)")) {
+                + "warmUpTime, testDuration, stepDuration, stepCount, userCount, userId) values (?,?, ?, ?, ?, ?, ?, ?, ?)")) {
             preparedStatement.setString(1, projectName);
             preparedStatement.setString(2, uri);
             preparedStatement.setString(3, "capacity");
@@ -1117,7 +1136,7 @@ public class DatabaseClient {
             preparedStatement.setInt(6, stepDurationMs);
             preparedStatement.setInt(7, stepCount);
             preparedStatement.setInt(8, userCount);
-            preparedStatement.setInt(10, 1); //UserId
+            preparedStatement.setInt(9, user.getId()); //UserId
 
             preparedStatement.executeUpdate();
         }

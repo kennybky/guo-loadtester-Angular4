@@ -151,13 +151,20 @@ public class WebServiceResource {
         		
         		connection.connect();
         	}
+
+            String responseBody = "";
         	
         	//URLConnection connection = new URL(ws.getUrl()).openConnection();
-        	InputStream response = connection.getInputStream();
-        	
-        	Scanner scanner = new Scanner(response);
-        	String responseBody = scanner.useDelimiter("\\A").next();
-        	scanner.close();
+            try {
+                InputStream response = connection.getInputStream();
+
+
+                Scanner scanner = new Scanner(response);
+                responseBody = scanner.useDelimiter("\\A").next();
+                scanner.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("No Response Body");
+            }
         	
         	
         	
@@ -172,7 +179,7 @@ public class WebServiceResource {
         }
         catch(Exception e) {
         	// do something?
-        	System.out.println(e.getMessage() + " here " );
+        	System.out.println(e.getMessage()  + " here " );
             e.printStackTrace();
         	return Response.status(400).entity(e.getMessage()).build();
         }

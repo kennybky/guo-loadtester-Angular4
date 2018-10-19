@@ -14,7 +14,7 @@ export class ProjectDataService {
 
         getProjects() {
         let vm = this;
-        return this.http.get("v1/project/list");
+        return this.http.get("/v1/project/list");
       }
 
         deleteProjects(projects) {
@@ -22,8 +22,8 @@ export class ProjectDataService {
           return project.projectid;
         });
 
-        return this.http.post('v1/project/deleteProjects', {projectIds: projectIds},
-          {headers: {'Content-Type': 'application/json'}});
+        return this.http.post('/v1/project/deleteProjects', {projectIds: projectIds},
+          {headers: {'Content-Type': 'application/json'}, responseType: 'text'});
       }
 
         updateLoadBtn(projects) {
@@ -41,12 +41,12 @@ export class ProjectDataService {
       }
 
         getAvailability(mode, date, projectId) {
-        return this.http.get('v1/test/availability?date='
+        return this.http.get('/v1/test/availability?date='
           + date.toISOString() + '&mode=' + mode + '&projectId=' + projectId);
       }
 
         getReliability(projectId) {
-        return this.http.get('v1/test/reliability?projectId=' + projectId);
+        return this.http.get('/v1/test/reliability?projectId=' + projectId);
       }
 
         filterNIP(projects) {
