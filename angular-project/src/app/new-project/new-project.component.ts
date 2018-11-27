@@ -27,7 +27,7 @@ export class NewProjectComponent implements OnInit, OnDestroy, OnChanges, AfterV
   urlSelectType: string;
   names = [] as any;
   serviceName: any;
-  methodSelected = "" as string;
+  methodSelected: string;
   baseMethodUrl: any;
   baseUrl: any;
   savedUrl: any;
@@ -164,18 +164,19 @@ this.activate()
         console.log(true)
         if (serviceRetest.baseUri) {
           this.urlSelectType = 'Url Builder';
-          this.project = new WizardProject("default", null, null, null);
+          this.project = new WizardProject("default", null, serviceRetest.baseUri, null);
           this.serviceName = serviceRetest.name;
           this.getMethods(this.serviceName);
         } else {
           this.urlSelectType = 'Saved Test Urls';
-          this.project = new WizardProject("default", null, null, serviceRetest.testUri);
+          this.project = new WizardProject("default", null,  serviceRetest.testUri, null);
           this.savedUrl = serviceRetest.testUri;
         }
       }
     });
-
-     this.project = this.retester.getProject();
+     if (this.retester.isRetest) {
+       this.project = this.retester.getProject();
+     }
 
 
     /**
@@ -641,8 +642,13 @@ this.activate()
    * For a particular method, get the parameters.
    * @param method
    */
- getParams(method) {
+ getParams(methodName) {
    let vm = this;
+   const method = this.methods.find(function(obj){
+     console.log(methodName, obj.method)
+     return methodName === obj.method;
+   })
+    console.log(method)
     if (method) {
       vm.urlBuilder.setMethod(method);
       vm.params = vm.urlBuilder.formatParams(method.parameters);

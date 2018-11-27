@@ -54,7 +54,8 @@ export class WebService {
   }
 
    getMethods (services, name) {
-    var methods = [];
+    let methods = [];
+    console.log(services)
     services.forEach(function (service) {
       if (service.name === name) {
         methods.push(service);
@@ -62,6 +63,8 @@ export class WebService {
     });
     return methods;
   }
+
+
 
    deleteService(service) {
     return this.http.get('/v1/service/delete?id=' + service.id);
