@@ -34,6 +34,9 @@ import edu.csula.cs594.client.results.project.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
+
 public class DatabaseClient {
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseClient.class);
@@ -44,6 +47,9 @@ public class DatabaseClient {
     String dbUser = "loadtester";
     String dbPwd = "loadtester";
     String server = "localhost";
+
+    @Context
+    private HttpServletRequest request;
 
     public DatabaseClient() {
         try {
@@ -590,15 +596,16 @@ public class DatabaseClient {
     }
 
 
-
-    public List<ProjectResponse> getLoadProjects() throws SQLException {
-
+    public List<ProjectResponse> getLoadProjects(User user) throws SQLException {
+        System.out.println(user.getEmail());
         try (PreparedStatement preparedStatement = connect
                 .prepareStatement("select projectname, uri, requestcount, datecreated, id, "
                         + "avgResponseTime, userCount, warmUpTime, testDuration, failedRequests, "
                         + "testType, distribution, stepDuration, stepCount,method from stats.projects"
-                        + " where testType != ? ")) {
+                        + " where testType != ? and userId = ?")) {
             preparedStatement.setString(1, "scheduled");
+            preparedStatement.setInt(2, user.getId());
+
             List<ProjectResponse> results = new ArrayList<>();
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -641,11 +648,12 @@ public class DatabaseClient {
         }
     }
 
-    public List<ProjectResponse> getScheduledProjects() throws SQLException {
-
+    public List<ProjectResponse> getScheduledProjects(User user) throws SQLException {
+        System.out.println(user.getEmail());
         try (PreparedStatement preparedStatement = connect
-                .prepareStatement("select id, projectname, uri, scheduleInterval, dateCreated, method from stats.projects where testType = ? ")) {
+                .prepareStatement("select id, projectname, uri, scheduleInterval, dateCreated, method from stats.projects where  testType = ? and userId = ? ")) {
             preparedStatement.setString(1, "scheduled");
+            preparedStatement.setInt(2, user.getId());
 
             List<ProjectResponse> scheduledProjects = new ArrayList<>();
             try (ResultSet resultSet = preparedStatement.executeQuery()) {

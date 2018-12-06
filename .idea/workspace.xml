@@ -7,18 +7,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8192ea3-3270-45dc-8286-9c8abd0d09b4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/angular-project/src/app/new-project/new-project.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/angular-project/src/app/new-project/new-project.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/angular-project/src/app/new-project/new-project.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/angular-project/src/app/new-project/new-project.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/angular-project/src/app/shared/services/web.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/angular-project/src/app/shared/services/web.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/angular-project/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/angular-project/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/DatabaseClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/DatabaseClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/ProjectResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/ProjectResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/WebServiceResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/WebServiceResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/0.ab8cc115483f34289653.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/3rdpartylicenses.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/database/stats.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/database/stats.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fontawesome-webfont.674f50d287a8c48dc19b.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fontawesome-webfont.912ec66d7572ff821749.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fontawesome-webfont.af7ae505a9eed503f8b8.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fontawesome-webfont.b06871f281fee6b241d6.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fontawesome-webfont.fee66e712a8a08eef580.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/main.a1d36731f9d720fc856b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/polyfills.d5b630aa59eb886b2bad.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/runtime.eee543552b4b86c04048.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/scripts.5289ba40e0674e1720d2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/styles.a609ca55a7fee3f332bb.css" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,20 +47,20 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="html" value="13" />
-          <entry key="java" value="56" />
+          <entry key="java" value="61" />
           <entry key="json" value="2" />
-          <entry key="sql" value="1" />
-          <entry key="ts" value="24" />
+          <entry key="sql" value="2" />
+          <entry key="ts" value="26" />
           <entry key="xml" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="HTML" value="13" />
-          <entry key="JAVA" value="56" />
+          <entry key="JAVA" value="61" />
           <entry key="JSON" value="2" />
-          <entry key="SQL" value="1" />
-          <entry key="TypeScript" value="24" />
+          <entry key="SQL" value="2" />
+          <entry key="TypeScript" value="26" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
@@ -66,14 +72,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="91" />
-          <entry key="java" value="8" />
+          <entry key="java" value="303" />
+          <entry key="sql" value="67" />
           <entry key="ts" value="359" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="91" />
-          <entry key="JAVA" value="8" />
+          <entry key="JAVA" value="303" />
+          <entry key="SQL" value="67" />
           <entry key="TypeScript" value="359" />
         </counts>
       </usages-collector>
@@ -85,19 +93,28 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/DatabaseClient.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/ProjectResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="711">
-              <caret line="964" column="26" selection-start-line="964" selection-start-column="26" selection-end-line="964" selection-end-column="26" />
+            <state relative-caret-position="272">
+              <caret line="54" column="40" lean-forward="true" selection-start-line="53" selection-start-column="4" selection-end-line="54" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/WebServiceResource.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="379">
+              <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/TestResource.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/DatabaseClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-538">
-              <caret line="122" column="27" selection-start-line="122" selection-start-column="16" selection-end-line="122" selection-end-column="27" />
+            <state relative-caret-position="115">
+              <caret line="185" column="63" selection-start-line="185" selection-start-column="57" selection-end-line="185" selection-end-column="63" />
             </state>
           </provider>
         </entry>
@@ -114,11 +131,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/CliClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-45">
-              <caret line="164" column="27" selection-start-line="164" selection-start-column="16" selection-end-line="164" selection-end-column="27" />
+            <state relative-caret-position="176">
+              <caret line="177" column="43" selection-start-line="177" selection-start-column="43" selection-end-line="177" selection-end-column="43" />
               <folding>
                 <element signature="e#2095#2096#0" expanded="true" />
                 <element signature="e#2173#2174#0" expanded="true" />
@@ -148,7 +165,11 @@
       <find>getCapacity</find>
       <find>capacity</find>
       <find>capacitytest</find>
+      <find>getproject</find>
+      <find>jwttoke</find>
+      <find>User</find>
       <find>scalability</find>
+      <find>Userid</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -163,6 +184,10 @@
         <option value="$PROJECT_DIR$/angular-project/src/app/new-project/new-project.component.ts" />
         <option value="$PROJECT_DIR$/angular-project/src/app/web-services/web-services.component.ts" />
         <option value="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/ServiceResource.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/database/stats.sql" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/DatabaseClient.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/ProjectResource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/WebServiceResource.java" />
       </list>
     </option>
   </component>
@@ -262,48 +287,6 @@
             <path>
               <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
               <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
-              <item name="angular-project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="new-project" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
-              <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
-              <item name="angular-project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
-              <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
-              <item name="angular-project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
-              <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
-              <item name="angular-project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
-              <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
-              <item name="angular-project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="web-services" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
-              <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -326,15 +309,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
-              <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="loadfunctions" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
@@ -350,23 +324,7 @@
               <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="generic" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
-              <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
-              <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
@@ -375,6 +333,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="loadtester" type="b2602c69:ProjectViewProjectNode" />
+              <item name="guo-loadtester-Angular4" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -385,7 +352,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543161672152" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544056685253" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Tests" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -488,18 +455,17 @@
       <updated>1541224610700</updated>
       <workItem from="1541224616217" duration="4282000" />
       <workItem from="1541641538246" duration="6917000" />
-      <workItem from="1542295395825" duration="17043000" />
+      <workItem from="1542295395825" duration="23387000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28242000" />
+    <option name="totallyTimeSpent" value="34586000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1750503" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24211939" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -517,9 +483,9 @@
       <window_info anchor="bottom" id="Application Servers" order="7" weight="0.32956153" />
       <window_info anchor="bottom" id="Spring" order="8" />
       <window_info anchor="bottom" id="TypeScript" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.27157003" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.27157003" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="12" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.32956153" />
       <window_info anchor="bottom" id="Java Enterprise" order="13" />
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="15" />
@@ -542,13 +508,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-38" />
@@ -613,20 +572,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/WebServiceResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="74" column="41" lean-forward="true" selection-start-line="74" selection-start-column="41" selection-end-line="74" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/database/stats.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/StringResource.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
@@ -638,13 +583,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-24">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/ProjectResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
         </state>
       </provider>
     </entry>
@@ -739,13 +677,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/ServletContextListenerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="29" column="35" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/angular-project/src/app/web-services/web-services.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="146">
@@ -777,16 +708,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/angular-project/src/app/existing-project/existing-projects.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2356">
-          <caret line="513" column="22" lean-forward="true" selection-start-line="513" selection-start-column="22" selection-end-line="513" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/angular-project/node_modules/typescript/lib/lib.es5.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
@@ -805,13 +726,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="348">
           <caret line="178" column="6" selection-start-line="178" selection-start-column="6" selection-end-line="178" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/ServiceResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="129" column="32" lean-forward="true" selection-start-line="129" selection-start-column="32" selection-end-line="129" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -884,28 +798,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/DatabaseClient.java">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/database/stats.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="711">
-          <caret line="964" column="26" selection-start-line="964" selection-start-column="26" selection-end-line="964" selection-end-column="26" />
+        <state relative-caret-position="58">
+          <caret line="84" lean-forward="true" selection-start-line="83" selection-end-line="84" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/TestResource.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/ServletContextListenerImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-538">
-          <caret line="122" column="27" selection-start-line="122" selection-start-column="16" selection-end-line="122" selection-end-column="27" />
+        <state relative-caret-position="-255">
+          <caret line="29" column="35" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/JWTTokenNeeded.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/CliClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-45">
-          <caret line="164" column="27" selection-start-line="164" selection-start-column="16" selection-end-line="164" selection-end-column="27" />
+        <state relative-caret-position="176">
+          <caret line="177" column="43" selection-start-line="177" selection-start-column="43" selection-end-line="177" selection-end-column="43" />
           <folding>
             <element signature="e#2095#2096#0" expanded="true" />
             <element signature="e#2173#2174#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/angular-project/src/app/login/login.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-308">
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/angular-project/src/app/existing-project/existing-projects.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="77" column="7" selection-start-line="77" selection-start-column="7" selection-end-line="77" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/ServiceResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="129" column="32" lean-forward="true" selection-start-line="129" selection-start-column="32" selection-end-line="129" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/TestResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="27" column="27" lean-forward="true" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/DatabaseClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="185" column="63" selection-start-line="185" selection-start-column="57" selection-end-line="185" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/ProjectResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="54" column="40" lean-forward="true" selection-start-line="53" selection-start-column="4" selection-end-line="54" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/csula/cs594/client/resource/WebServiceResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
         </state>
       </provider>
     </entry>

@@ -3,6 +3,7 @@ import com.google.gson.Gson;
 
 import edu.csula.cs594.client.CliClient;
 import edu.csula.cs594.client.DatabaseClient;
+import edu.csula.cs594.client.JWTTokenNeeded;
 import edu.csula.cs594.client.dao.ProjectResponse;
 import edu.csula.cs594.client.dao.StatusResponse;
 
@@ -22,11 +23,13 @@ import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import edu.csula.cs594.client.dao.model.User;
 import edu.csula.cs594.client.dao.model.WebProjectTest;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +41,7 @@ public class WebServiceResource {
 
     private final DatabaseClient dbClient;
 	private final Map<Integer, CliClient> cliClientMap;
+    @Context private HttpServletRequest request;
     
     public WebServiceResource(@Context ServletContext context) {
 		dbClient = (DatabaseClient) context.getAttribute("dbClient");
@@ -46,15 +50,18 @@ public class WebServiceResource {
     
     //I'll change this later for only websites
     @GET
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProjects() {
         System.out.println("GET - /ws");
         List<ProjectResponse> loadProjects;
 		List<ProjectResponse> scheduledProjects;
+        User user = (User) request.getAttribute("User");
+        System.out.println(user.getEmail());
 
 		try {
-			loadProjects = dbClient.getLoadProjects(); //load test projects
-			scheduledProjects = dbClient.getScheduledProjects(); //for regularly running projects used for reliability and availalbility
+			loadProjects = dbClient.getLoadProjects(user); //load test projects
+			scheduledProjects = dbClient.getScheduledProjects(user); //for regularly running projects used for reliability and availalbility
 
 		} catch (SQLException ex) {
 			Logger.getLogger(ProjectResource.class.getName()).log(Level.SEVERE, null, ex);
