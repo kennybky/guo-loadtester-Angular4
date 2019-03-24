@@ -79,9 +79,9 @@ id int primary key not null auto_increment
 , FOREIGN KEY (projectid) REFERENCES webprojects(id)
 );
 
-insert into stats.users values (0, 'Demo', '$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6', 'Demo', 'Demo@loadtester.com');
-insert into stats.users values (1, 'adekola', '$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6', 'Adekola', 'adekola@loadtester.com');
-insert into stats.users values (2, 'jguo', '$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6', 'Jiang Guo', 'jguo@loadtester.com');
+insert into stats.users values (null, 'Demo', '$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6', 'Demo', 'Demo@loadtester.com');
+insert into stats.users values (null, 'adekola', '$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6', 'Adekola', 'adekola@loadtester.com');
+insert into stats.users values (null, 'jguo', '$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6', 'Jiang Guo', 'jguo@loadtester.com');
 
 INSERT INTO `services` VALUES (1,'Global Weather','http://www.webservicex.net/globalweather.asmx?WSDL','http://www.webservicex.net/globalweather.asmx/','http://www.webservicex.net/globalweather.asmx/GetWeather?CountryName=Spain&CityName=Madrid','GetWeather','CountryName,CityName'),
 (2,'Global Weather','http://www.webservicex.net/globalweather.asmx?WSDL','http://www.webservicex.net/globalweather.asmx/','http://www.webservicex.net/globalweather.asmx/GetCitiesByCountry?CountryName=China','GetCitiesByCountry','CountryName'),

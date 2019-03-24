@@ -22,11 +22,11 @@ package eu.impact_project.iif.ws.generic;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.Text;
-import org.jdom.input.SAXBuilder;
-import org.jdom.xpath.XPath;
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.Text;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.xpath.XPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
